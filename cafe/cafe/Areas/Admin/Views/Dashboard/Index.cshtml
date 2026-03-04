@@ -1,0 +1,51 @@
+﻿@{
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    ViewData["Title"] = "Home Admin Page";
+}
+<div class="row mb-2">
+    <div class="col-sm-6">
+        <h1 class="m-0">Home Admin</h1>
+    </div>
+    <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item active"><a asp-area="Admin" asp-controller="HomeAdmin" asp-action="Index">Home Admin</a></li>
+        </ol>
+    </div>
+</div>
+<hr />
+<h1>Welcome to the endless plateau</h1>
+<h6>Chào mừng bạn đến với bình nguyên vô tận</h6>
+
+<h2 class="mb-4">Admin Dashboard</h2>
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="card shadow-sm text-center">
+            <div class="card-body">
+                <h5>Quản lý sản phẩm</h5>
+                <a asp-area="Admin"
+                   asp-controller="Categories"
+                   asp-action="Index"
+                   class="btn btn-primary">
+                    Vào quản lý
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card shadow-sm text-center">
+            <div class="card-body">
+                <h5>Quản lý sản phẩm</h5>
+                <a asp-area="Admin"
+                   asp-controller="products"
+                   asp-action="Index"
+                   class="btn btn-primary">
+                    Vào quản lý
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
