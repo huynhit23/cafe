@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using cafe.Data;
+using cafe.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using cafe.Data;
-using cafe.Models;
+using X.PagedList;
+using X.PagedList.Extensions;
 
 namespace cafe.Areas.Admin.Controllers
 {
@@ -20,146 +18,233 @@ namespace cafe.Areas.Admin.Controllers
             _context = context;
         }
 
-        // GET: Admin/Products
-        public async Task<IActionResult> Index()
+        // =============================
+        // PRODUCT LIST
+        // =============================
+        public IActionResult Index(string? name, int? page)
         {
-            var applicationDbContext = _context.Products.Include(p => p.Category);
-            return View(await applicationDbContext.ToListAsync());
+            int pageSize = 5;
+            int pageNumber = page ?? 1;
+
+            var products = _context.Products
+                .Include(p => p.Category)
+                .OrderByDescending(p => p.Id)
+                .AsQueryable();
+
+            if (!string.IsNullOrEmpty(name))
+            {
+                products = products.Where(p => p.Name.Contains(name));
+            }
+
+            return View(products.ToPagedList(pageNumber, pageSize));
         }
 
-        // GET: Admin/Products/Details/5
+        // =============================
+        // DETAILS
+        // =============================
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
 
             var product = await _context.Products
                 .Include(p => p.Category)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (product == null)
-            {
-                return NotFound();
-            }
+                .FirstOrDefaultAsync(p => p.Id == id);
+
+            if (product == null) return NotFound();
 
             return View(product);
         }
 
-        // GET: Admin/Products/Create
+        // =============================
+        // CREATE GET
+        // =============================
+        [HttpGet]
         public IActionResult Create()
         {
             ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Name");
             return View();
         }
 
-        // POST: Admin/Products/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // =============================
+        // CREATE POST
+        // =============================
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Description,Price,ImageUrl,StockQuantity,CategoryId,CreatedDate,IsActive")] Product product)
+        public async Task<IActionResult> Create(Product product, IFormFile? ImageFile)
         {
+            TempData["Message"] = "";
+
+            var checkProduct = _context.Products
+                .FirstOrDefault(p => p.Name == product.Name);
+
+            if (checkProduct != null)
+            {
+                ViewBag.error = "Product name already exists";
+                ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Name", product.CategoryId);
+                return View(product);
+            }
+
             if (ModelState.IsValid)
             {
+                product.CreatedDate = DateTime.Now;
+
+                if (ImageFile != null && ImageFile.Length > 0)
+                {
+                    var fileName = Guid.NewGuid().ToString() + Path.GetExtension(ImageFile.FileName);
+
+                    var folder = Path.Combine(
+                        Directory.GetCurrentDirectory(),
+                        "wwwroot",
+                        "Images"
+                    );
+
+                    if (!Directory.Exists(folder))
+                    {
+                        Directory.CreateDirectory(folder);
+                    }
+
+                    var path = Path.Combine(folder, fileName);
+
+                    using (var stream = new FileStream(path, FileMode.Create))
+                    {
+                        await ImageFile.CopyToAsync(stream);
+                    }
+
+                    product.ImageUrl = fileName;
+                }
+
                 _context.Add(product);
                 await _context.SaveChangesAsync();
+
+                TempData["Message"] = "Product added successfully";
+
                 return RedirectToAction(nameof(Index));
             }
+
             ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Name", product.CategoryId);
+
             return View(product);
         }
 
-        // GET: Admin/Products/Edit/5
+        // =============================
+        // EDIT GET
+        // =============================
+        [HttpGet]
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
 
             var product = await _context.Products.FindAsync(id);
-            if (product == null)
-            {
-                return NotFound();
-            }
+
+            if (product == null) return NotFound();
+
             ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Name", product.CategoryId);
+
             return View(product);
         }
 
-        // POST: Admin/Products/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // =============================
+        // EDIT POST
+        // =============================
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,Price,ImageUrl,StockQuantity,CategoryId,CreatedDate,IsActive")] Product product)
+        public async Task<IActionResult> Edit(int id, Product product, IFormFile? ImageFile, string? OldImage)
         {
-            if (id != product.Id)
+            TempData["Message"] = "";
+
+            if (id != product.Id) return NotFound();
+
+            var checkProduct = _context.Products
+                .FirstOrDefault(p => p.Name == product.Name && p.Id != product.Id);
+
+            if (checkProduct != null)
             {
-                return NotFound();
+                ViewBag.error = "Product name already exists";
+                ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Name", product.CategoryId);
+                return View(product);
             }
 
             if (ModelState.IsValid)
             {
                 try
                 {
+                    if (ImageFile != null && ImageFile.Length > 0)
+                    {
+                        var fileName = Guid.NewGuid().ToString() + Path.GetExtension(ImageFile.FileName);
+
+                        var folder = Path.Combine(
+                            Directory.GetCurrentDirectory(),
+                            "wwwroot",
+                            "Images"
+                        );
+
+                        if (!Directory.Exists(folder))
+                        {
+                            Directory.CreateDirectory(folder);
+                        }
+
+                        var path = Path.Combine(folder, fileName);
+
+                        using (var stream = new FileStream(path, FileMode.Create))
+                        {
+                            await ImageFile.CopyToAsync(stream);
+                        }
+
+                        product.ImageUrl = fileName;
+                    }
+                    else
+                    {
+                        product.ImageUrl = OldImage;
+                    }
+
                     _context.Update(product);
                     await _context.SaveChangesAsync();
+
+                    TempData["Message"] = "Product updated successfully";
                 }
                 catch (DbUpdateConcurrencyException)
                 {
                     if (!ProductExists(product.Id))
-                    {
                         return NotFound();
-                    }
                     else
-                    {
                         throw;
-                    }
                 }
+
                 return RedirectToAction(nameof(Index));
             }
+
             ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Name", product.CategoryId);
-            return View(product);
-        }
-
-        // GET: Admin/Products/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var product = await _context.Products
-                .Include(p => p.Category)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (product == null)
-            {
-                return NotFound();
-            }
 
             return View(product);
         }
 
-        // POST: Admin/Products/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        // =============================
+        // DELETE
+        // =============================
+        [HttpPost]
+        public async Task<IActionResult> Delete(int id)
         {
+            TempData["Message"] = "";
+
             var product = await _context.Products.FindAsync(id);
+
             if (product != null)
             {
                 _context.Products.Remove(product);
+                await _context.SaveChangesAsync();
+
+                TempData["Message"] = "Product deleted successfully";
             }
 
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
+        // =============================
+        // CHECK PRODUCT
+        // =============================
         private bool ProductExists(int id)
         {
-            return _context.Products.Any(e => e.Id == id);
+            return _context.Products.Any(p => p.Id == id);
         }
     }
 }

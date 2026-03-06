@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using cafe.Data;
+using cafe.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using cafe.Data;
-using cafe.Models;
+using X.PagedList;
+using X.PagedList.Extensions;
 
 namespace cafe.Areas.Admin.Controllers
 {
@@ -20,79 +20,108 @@ namespace cafe.Areas.Admin.Controllers
             _context = context;
         }
 
-        // GET: Admin/Categories
-        public async Task<IActionResult> Index()
+        // LIST + SEARCH + PAGINATION
+        public IActionResult Index(string? name, int? page)
         {
-            return View(await _context.Categories.ToListAsync());
+            int pageSize = 5;
+            int pageNumber = page ?? 1;
+
+            var categories = _context.Categories.AsQueryable();
+
+            if (!string.IsNullOrEmpty(name))
+            {
+                categories = categories.Where(c => c.Name.Contains(name));
+            }
+
+            var result = categories
+                .OrderByDescending(c => c.Id)
+                .ToPagedList(pageNumber, pageSize);
+
+            return View(result);
         }
 
-        // GET: Admin/Categories/Details/5
+        // DETAILS
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
 
             var category = await _context.Categories
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (category == null)
-            {
-                return NotFound();
-            }
+
+            if (category == null) return NotFound();
 
             return View(category);
         }
 
-        // GET: Admin/Categories/Create
+        // CREATE
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Admin/Categories/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // CREATE POST
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Description,CreatedDate,IsActive")] Category category)
+        public async Task<IActionResult> Create(Category category)
         {
+            TempData["Message"] = "";
+            TempData["MessageError"] = "";
+
+            var check = _context.Categories
+                .FirstOrDefault(c => c.Name == category.Name);
+
+            if (check != null)
+            {
+                ViewBag.error = "Tên danh mục đã tồn tại";
+                return View(category);
+            }
+
             if (ModelState.IsValid)
             {
+                category.CreatedDate = DateTime.Now;
+
                 _context.Add(category);
                 await _context.SaveChangesAsync();
+
+                TempData["Message"] = "Thêm danh mục thành công";
+
                 return RedirectToAction(nameof(Index));
             }
+
             return View(category);
         }
 
-        // GET: Admin/Categories/Edit/5
+        // EDIT
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
 
             var category = await _context.Categories.FindAsync(id);
-            if (category == null)
-            {
-                return NotFound();
-            }
+
+            if (category == null) return NotFound();
+
             return View(category);
         }
 
-        // POST: Admin/Categories/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // EDIT POST
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,CreatedDate,IsActive")] Category category)
+        public async Task<IActionResult> Edit(int id, Category category)
         {
-            if (id != category.Id)
+            TempData["Message"] = "";
+            TempData["MessageError"] = "";
+
+            var check = _context.Categories
+                .FirstOrDefault(c => c.Name == category.Name && c.Id != category.Id);
+
+            if (check != null)
             {
-                return NotFound();
+                ViewBag.error = "Tên danh mục đã tồn tại";
+                return View(category);
             }
+
+            if (id != category.Id)
+                return NotFound();
 
             if (ModelState.IsValid)
             {
@@ -100,53 +129,40 @@ namespace cafe.Areas.Admin.Controllers
                 {
                     _context.Update(category);
                     await _context.SaveChangesAsync();
+
+                    TempData["Message"] = "Cập nhật danh mục thành công";
                 }
                 catch (DbUpdateConcurrencyException)
                 {
                     if (!CategoryExists(category.Id))
-                    {
                         return NotFound();
-                    }
                     else
-                    {
                         throw;
-                    }
                 }
+
                 return RedirectToAction(nameof(Index));
             }
-            return View(category);
-        }
-
-        // GET: Admin/Categories/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var category = await _context.Categories
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (category == null)
-            {
-                return NotFound();
-            }
 
             return View(category);
         }
 
-        // POST: Admin/Categories/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        // DELETE
+        public async Task<IActionResult> Delete(int id)
         {
+            TempData["Message"] = "";
+            TempData["MessageError"] = "";
+
             var category = await _context.Categories.FindAsync(id);
-            if (category != null)
-            {
-                _context.Categories.Remove(category);
-            }
+
+            if (category == null)
+                return NotFound();
+
+            _context.Categories.Remove(category);
 
             await _context.SaveChangesAsync();
+
+            TempData["Message"] = "Xóa danh mục thành công";
+
             return RedirectToAction(nameof(Index));
         }
 

@@ -14,11 +14,26 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.23" />
+    <PackageReference Include="X.PagedList" Version="10.5.9" />
+    <PackageReference Include="X.PagedList.Mvc.Core" Version="10.5.9" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Areas\Admin\Data\" />
     <Folder Include="Areas\Admin\Models\" />
+    <Folder Include="wwwroot\Images\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\StyleAdmin\StyleAdmin\.github\codeql\codeql-config.yml" />
+    <None Include="wwwroot\StyleAdmin\StyleAdmin\.github\CONTRIBUTING.md" />
+    <None Include="wwwroot\StyleAdmin\StyleAdmin\.github\dependabot.yml" />
+    <None Include="wwwroot\StyleAdmin\StyleAdmin\.github\ISSUE_TEMPLATE\bug-report-for-adminlte-v3.1-x.md" />
+    <None Include="wwwroot\StyleAdmin\StyleAdmin\.github\ISSUE_TEMPLATE\feature-request-for-adminlte-v4-x.md" />
+    <None Include="wwwroot\StyleAdmin\StyleAdmin\.github\workflows\ci.yml" />
+    <None Include="wwwroot\StyleAdmin\StyleAdmin\.github\workflows\codeql.yml" />
+    <None Include="wwwroot\StyleAdmin\StyleAdmin\.github\workflows\docs.yml" />
+    <None Include="wwwroot\StyleAdmin\StyleAdmin\.github\workflows\lint.yml" />
   </ItemGroup>
 
 </Project>

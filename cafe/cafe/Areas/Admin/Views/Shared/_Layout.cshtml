@@ -21,7 +21,7 @@
 <body class="hold-transition dark-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
     <div class="wrapper">
         <div class="preloader flex-column justify-content-center align-items-center">
-            <a asp-area="" asp-action="Index" asp-controller="Home">
+            <a asp-area="" asp-action="Index" asp-controller="Dashboard">
                 <img class="animation__wobble" src="~/StyleAdmin/dist/img/AdminLTELogo.png" alt="#" height="60" width="60">
             </a>
         </div>
@@ -43,61 +43,66 @@
             </ul>
         </nav>
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
-            <a asp-area="" asp-action="Index" asp-controller="Home" class="brand-link">
-                <img src="~/StyleAdmin/dist/img/AdminLTELogo.png" alt="#" class="brand-image img-circle elevation-3"
-                     style="opacity: .8">
+
+            <a asp-area="" asp-action="Index" asp-controller="Dashboard" class="brand-link">
+                <img src="~/StyleAdmin/dist/img/AdminLTELogo.png"
+                     class="brand-image img-circle elevation-3"
+                     style="opacity:.8">
                 <span class="brand-text font-weight-light">Providence</span>
             </a>
-            
+
+            <!-- THÊM DIV NÀY -->
+            <div class="sidebar">
+
                 <nav class="mt-2">
-                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                    <ul class="nav nav-pills nav-sidebar flex-column"
+                        data-widget="treeview" role="menu">
+
                         <li class="nav-header">Manage Providence</li>
+
                         <li class="nav-item">
-                            <a asp-area="Admin" asp-controller="CategoriesAdmin" asp-action="Index" class="nav-link">
-                                <i class="fa-solid fa-layer-group"></i>
+                            <a asp-area="Admin" asp-controller="Categories" asp-action="Index" class="nav-link">
+                                <i class="nav-icon fas fa-layer-group"></i>
                                 <p>Manage Categories</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a asp-area="Admin" asp-controller="ProductsAdmin" asp-action="Index" class="nav-link">
-                                <i class="nav-icon fas fa-tree"></i>
+                            <a asp-area="Admin" asp-controller="Blogs" asp-action="Index" class="nav-link">
+                                <i class="nav-icon fas fa-layer-group"></i>
+                                <p>Blogs</p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a asp-area="Admin" asp-controller="Products" asp-action="Index" class="nav-link">
+                                <i class="nav-icon fas fa-box"></i>
                                 <p>Manage Products</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a asp-area="Admin" asp-controller="NewsAdmin" asp-action="Index" class="nav-link">
-                                <i class="nav-icon fas fa-book"></i>
-                                <p>Manage News</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a asp-area="Admin" asp-controller="AccountsAdmin" asp-action="Index" class="nav-link">
-                                <i class="fa-solid fa-user-gear"></i>
-                                <p>Manage Accounts</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a asp-area="Admin" asp-controller="OrdersAdmin" asp-action="Index" class="nav-link">
-                                <i class="fa-solid fa-truck-fast"></i>
-                                <p>Manage OrderDetails</p>
                             </a>
                         </li>
 
                     </ul>
                 </nav>
+
             </div>
+
         </aside>
-        <div class="content-wrapper">
-            <div class="content-header">
-                <div class="container-fluid">
-                    <div class="container">
-                        <main role="main" class="pb-3">
-                            @RenderBody()
-                        </main>
-                    </div>
-                </div>
+    <div class="content-wrapper">
+
+        <!-- HEADER -->
+        <section class="content-header">
+            <div class="container-fluid">
+                @RenderSection("Header", required: false)
             </div>
-        </div>
+        </section>
+
+        <!-- MAIN CONTENT -->
+        <section class="content">
+            <div class="container-fluid">
+                @RenderBody()
+            </div>
+        </section>
+
+    </div>
     </div>
     <!-- ./wrapper -->
     <!-- REQUIRED SCRIPTS -->

@@ -1,54 +1,129 @@
 ﻿@model cafe.Models.Blog
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Blog Edit Page";
 }
 
-<h1>Edit</h1>
+<div class="row mb-2">
+    <div class="col-sm-6">
+        <h1 class="m-0">Blog Edit</h1>
+    </div>
 
-<h4>Blog</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
-            <div class="form-group">
-                <label asp-for="Title" class="control-label"></label>
-                <input asp-for="Title" class="form-control" />
-                <span asp-validation-for="Title" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Content" class="control-label"></label>
-                <input asp-for="Content" class="form-control" />
-                <span asp-validation-for="Content" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ImageUrl" class="control-label"></label>
-                <input asp-for="ImageUrl" class="form-control" />
-                <span asp-validation-for="ImageUrl" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CreatedDate" class="control-label"></label>
-                <input asp-for="CreatedDate" class="form-control" />
-                <span asp-validation-for="CreatedDate" class="text-danger"></span>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="IsPublished" /> @Html.DisplayNameFor(model => model.IsPublished)
-                </label>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+    <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item">
+                <a asp-area="Admin" asp-controller="HomeAdmin" asp-action="Index">Home Admin</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a asp-area="Admin" asp-controller="Blogs" asp-action="Index">Blog management</a>
+            </li>
+            <li class="breadcrumb-item active">Blog Edit</li>
+        </ol>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+<hr />
+
+<form asp-area="Admin"
+      asp-controller="Blogs"
+      asp-action="Edit"
+      method="post"
+      enctype="multipart/form-data">
+
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <input type="hidden" asp-for="Id" />
+
+    <!-- Title -->
+    <div class="form-group">
+        <label asp-for="Title"></label>
+        <input asp-for="Title" class="form-control" />
+        <span asp-validation-for="Title" class="text-danger"></span>
+    </div>
+
+    <!-- Content -->
+    <div class="form-group">
+        <label asp-for="Content"></label>
+        <textarea asp-for="Content"
+                  class="form-control"
+                  rows="6"></textarea>
+        <span asp-validation-for="Content" class="text-danger"></span>
+    </div>
+
+    <!-- Image -->
+    <div class="form-group">
+        <div class="row">
+
+            <div class="col-6">
+
+                @if (!string.IsNullOrEmpty(Model.ImageUrl))
+                {
+                    <img src="~/Images/@Model.ImageUrl"
+                         width="150"
+                         height="120"
+                         style="object-fit:cover;border-radius:5px" />
+                }
+
+            </div>
+
+            <div class="col-6">
+
+                <label>Blog Image</label>
+
+                <input type="file"
+                       name="ImageFile"
+                       class="form-control mb-2" />
+
+                <!-- gửi ảnh cũ -->
+                <input type="hidden"
+                       name="OldImage"
+                       value="@Model.ImageUrl" />
+
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Created Date -->
+    <div class="form-group">
+        <label asp-for="CreatedDate"></label>
+        <input asp-for="CreatedDate"
+               class="form-control"
+               type="datetime-local" />
+        <span asp-validation-for="CreatedDate" class="text-danger"></span>
+    </div>
+
+    <!-- Published -->
+    <div class="form-group form-check">
+
+        <input asp-for="IsPublished"
+               class="form-check-input" />
+
+        <label asp-for="IsPublished"
+               class="form-check-label"></label>
+
+    </div>
+
+    <!-- Buttons -->
+    <div class="form-group">
+
+        <button type="submit" class="btn btn-primary">
+            Save
+        </button>
+
+        <a asp-area="Admin"
+           asp-controller="Blogs"
+           asp-action="Index"
+           class="btn btn-secondary">
+            Back
+        </a>
+
+    </div>
+
+</form>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }
