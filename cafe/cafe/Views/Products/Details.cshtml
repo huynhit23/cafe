@@ -1,0 +1,76 @@
+@model cafe.Models.Product
+@{
+    ViewData["Title"] = Model.Name;
+}
+
+<section class="pt-5 pb-5" style="background:var(--cafe-cream);">
+    <div class="container">
+        <nav aria-label="breadcrumb" class="mb-4">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index" style="color:var(--cafe-brown);">Trang chủ</a></li>
+                <li class="breadcrumb-item"><a asp-controller="Products" asp-action="Index" style="color:var(--cafe-brown);">Sản phẩm</a></li>
+                <li class="breadcrumb-item active">@Model.Name</li>
+            </ol>
+        </nav>
+
+        <div class="row g-5 align-items-center">
+            <div class="col-md-5">
+                <div style="border-radius:20px;overflow:hidden;background:#fff;box-shadow:var(--shadow);aspect-ratio:1;display:flex;align-items:center;justify-content:center;">
+                    @if (!string.IsNullOrEmpty(Model.ImageUrl))
+                    {
+                        <img src="@Model.ImageUrl" alt="@Model.Name" style="width:100%;height:100%;object-fit:cover;" />
+                    }
+                    else
+                    {
+                        <i class="fas fa-coffee" style="font-size:6rem;color:var(--cafe-light);"></i>
+                    }
+                </div>
+            </div>
+            <div class="col-md-7">
+                <span class="badge-cafe mb-3 d-inline-block">@(Model.Category?.Name ?? "Sản phẩm")</span>
+                <h1 style="font-family:'Playfair Display',serif;color:var(--cafe-brown);margin-bottom:.75rem;">@Model.Name</h1>
+                <div style="font-size:2rem;font-weight:800;color:var(--cafe-brown);margin-bottom:1.25rem;">
+                    @Model.Price.ToString("N0") ₫
+                </div>
+
+                @if (!string.IsNullOrEmpty(Model.Description))
+                {
+                    <p class="text-muted mb-4" style="line-height:1.8;">@Model.Description</p>
+                }
+
+                <div class="d-flex align-items-center gap-2 mb-4">
+                    @if (Model.StockQuantity > 10)
+                    {
+                        <span class="badge bg-success">Còn hàng (@Model.StockQuantity)</span>
+                    }
+                    else if (Model.StockQuantity > 0)
+                    {
+                        <span class="badge bg-warning text-dark">Sắp hết (@Model.StockQuantity còn lại)</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-danger">Hết hàng</span>
+                    }
+                </div>
+
+                @if (Model.StockQuantity > 0)
+                {
+                    <div class="d-flex gap-3 flex-wrap">
+                        <button class="btn-cafe" onclick="addToCart(@Model.Id)" style="font-size:1rem;padding:.75rem 1.75rem;">
+                            <i class="fas fa-shopping-bag me-2"></i>Thêm vào giỏ
+                        </button>
+                        <a asp-controller="Products" asp-action="Index" class="btn-cafe-outline">
+                            <i class="fas fa-arrow-left me-1"></i>Tiếp tục mua
+                        </a>
+                    </div>
+                }
+                else
+                {
+                    <a asp-controller="Products" asp-action="Index" class="btn-cafe-outline">
+                        <i class="fas fa-arrow-left me-1"></i>Xem sản phẩm khác
+                    </a>
+                }
+            </div>
+        </div>
+    </div>
+</section>

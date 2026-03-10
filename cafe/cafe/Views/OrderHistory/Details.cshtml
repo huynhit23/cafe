@@ -1,0 +1,89 @@
+@model cafe.Models.Order
+@{
+    ViewData["Title"] = $"Đơn hàng #{Model.Id}";
+    var statusLabel = Model.Status switch
+    {
+        "Pending"    => "Chờ xác nhận",
+        "Processing" => "Đang xử lý",
+        "Shipped"    => "Đang giao",
+        "Delivered"  => "Đã giao",
+        "Cancelled"  => "Đã hủy",
+        _            => Model.Status
+    };
+    var statusColor = Model.Status switch
+    {
+        "Pending"    => "warning",
+        "Processing" => "info",
+        "Shipped"    => "primary",
+        "Delivered"  => "success",
+        "Cancelled"  => "danger",
+        _            => "secondary"
+    };
+}
+
+<section class="py-5">
+    <div class="container" style="max-width:720px;">
+        <a asp-controller="OrderHistory" asp-action="Index" class="btn-cafe-outline mb-4 d-inline-flex" style="padding:.5rem 1rem;font-size:.85rem;">
+            <i class="fas fa-arrow-left me-1"></i> Quay lại
+        </a>
+
+        <div style="background:#fff;border-radius:16px;box-shadow:var(--shadow);overflow:hidden;">
+            <div style="background:var(--cafe-brown);padding:1.5rem 2rem;color:#fff;">
+                <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+                    <h4 style="font-family:'Playfair Display',serif;margin:0;">Đơn hàng #@Model.Id</h4>
+                    <span class="badge bg-@statusColor fs-6">@statusLabel</span>
+                </div>
+                <p style="opacity:.75;margin:.5rem 0 0;font-size:.88rem;">
+                    Đặt lúc: @Model.OrderDate.ToString("HH:mm - dd/MM/yyyy")
+                </p>
+            </div>
+
+            <div style="padding:1.75rem 2rem;">
+                <div class="row mb-4">
+                    <div class="col-sm-6 mb-3">
+                        <p class="text-muted small mb-1">Địa chỉ giao hàng</p>
+                        <strong>@(Model.ShippingAddress ?? "—")</strong>
+                    </div>
+                    <div class="col-sm-6 mb-3">
+                        <p class="text-muted small mb-1">Thanh toán</p>
+                        <strong>@(Model.PaymentStatus == "Paid" ? "✅ Đã thanh toán" : "⏳ Chưa thanh toán")</strong>
+                    </div>
+                </div>
+
+                <h6 style="font-weight:700;margin-bottom:1rem;color:var(--cafe-brown);">Sản phẩm đã đặt</h6>
+                @foreach (var item in Model.OrderDetails ?? new List<cafe.Models.OrderDetail>())
+                {
+                    <div class="d-flex justify-content-between align-items-center mb-3 pb-3 border-bottom">
+                        <div class="d-flex gap-3 align-items-center">
+                            @if (!string.IsNullOrEmpty(item.Product?.ImageUrl))
+                            {
+                                <img src="@item.Product.ImageUrl" alt="@item.Product?.Name"
+                                     style="width:56px;height:56px;border-radius:8px;object-fit:cover;background:var(--cafe-gray);" />
+                            }
+                            else
+                            {
+                                <div style="width:56px;height:56px;border-radius:8px;background:var(--cafe-gray);display:flex;align-items:center;justify-content:center;">
+                                    <i class="fas fa-coffee text-muted"></i>
+                                </div>
+                            }
+                            <div>
+                                <div style="font-weight:600;">@(item.Product?.Name ?? "Sản phẩm")</div>
+                                <div style="font-size:.85rem;color:var(--text-muted);">@item.Price.ToString("N0") ₫ x @item.Quantity</div>
+                            </div>
+                        </div>
+                        <strong style="color:var(--cafe-brown);">@((item.Price * item.Quantity).ToString("N0")) ₫</strong>
+                    </div>
+                }
+
+                <div class="d-flex justify-content-between mt-3 pt-2">
+                    <span class="text-muted">Phí vận chuyển</span>
+                    <span class="text-success fw-semibold">Miễn phí</span>
+                </div>
+                <div class="d-flex justify-content-between mt-2 pt-2 border-top">
+                    <strong style="font-size:1.1rem;">Tổng cộng</strong>
+                    <strong style="font-size:1.25rem;color:var(--cafe-brown);">@Model.TotalAmount.ToString("N0") ₫</strong>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

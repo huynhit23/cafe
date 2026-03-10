@@ -22,11 +22,36 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
 
-// ✅ Cấu hình redirect khi chưa login
+// ✅ Cookie --- admin redirect riêng, user redirect riêng
 builder.Services.ConfigureApplicationCookie(options =>
 {
-    options.LoginPath = "/Admin/Account/Login";
-    options.AccessDeniedPath = "/Admin/Account/AccessDenied";
+    options.LoginPath = "/UserAccount/Login";
+    options.AccessDeniedPath = "/UserAccount/AccessDenied";
+    options.Events.OnRedirectToLogin = ctx =>
+    {
+        if (ctx.Request.Path.StartsWithSegments("/Admin"))
+            ctx.Response.Redirect("/Admin/Account/Login?returnUrl=" + Uri.EscapeDataString(ctx.Request.Path));
+        else
+            ctx.Response.Redirect("/UserAccount/Login?returnUrl=" + Uri.EscapeDataString(ctx.Request.Path));
+        return Task.CompletedTask;
+    };
+    options.Events.OnRedirectToAccessDenied = ctx =>
+    {
+        if (ctx.Request.Path.StartsWithSegments("/Admin"))
+            ctx.Response.Redirect("/Admin/Account/AccessDenied");
+        else
+            ctx.Response.Redirect("/UserAccount/AccessDenied");
+        return Task.CompletedTask;
+    };
+});
+
+// ✅ Session cho giỏ hàng
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
 });
 
 // MVC
@@ -34,7 +59,6 @@ builder.Services.AddControllersWithViews(options =>
 {
     options.MaxModelBindingCollectionSize = int.MaxValue;
 });
-// Tăng giới hạn kích thước request để nhận ảnh base64 từ Summernote
 builder.Services.Configure<Microsoft.AspNetCore.Http.Features.FormOptions>(options =>
 {
     options.ValueLengthLimit = int.MaxValue;
@@ -44,14 +68,12 @@ builder.Services.Configure<Microsoft.AspNetCore.Http.Features.FormOptions>(optio
 
 var app = builder.Build();
 
-// ✅ SEED ADMIN ACCOUNT
+// ✅ SEED admin + roles
 using (var scope = app.Services.CreateScope())
 {
-    var services = scope.ServiceProvider;
-    await SeedAdminAsync(services);
+    await SeedAdminAsync(scope.ServiceProvider);
 }
 
-// Middleware
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
@@ -59,61 +81,36 @@ if (!app.Environment.IsDevelopment())
 }
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
 app.UseRouting();
-
+app.UseSession();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapControllerRoute(
-    name: "areas",
-    pattern: "{area:exists}/{controller=Dashboard}/{action=Index}/{id?}"
-);
-
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}"
-);
+app.MapControllerRoute(name: "areas", pattern: "{area:exists}/{controller=Dashboard}/{action=Index}/{id?}");
+app.MapControllerRoute(name: "default", pattern: "{controller=Home}/{action=Index}/{id?}");
 app.Run();
 
-// ✅ HÀM SEED ADMIN
 static async Task SeedAdminAsync(IServiceProvider services)
 {
     var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
     var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
 
-    // Tạo role Admin nếu chưa có
-    if (!await roleManager.RoleExistsAsync("Admin"))
-    {
-        await roleManager.CreateAsync(new IdentityRole("Admin"));
-    }
+    foreach (var role in new[] { "Admin", "User" })
+        if (!await roleManager.RoleExistsAsync(role))
+            await roleManager.CreateAsync(new IdentityRole(role));
 
-    // Tạo tài khoản admin nếu chưa có
     const string adminEmail = "admin@cafe.com";
     const string adminPassword = "Admin@123";
 
-    var adminUser = await userManager.FindByEmailAsync(adminEmail);
-    if (adminUser == null)
+    var admin = await userManager.FindByEmailAsync(adminEmail);
+    if (admin == null)
     {
-        adminUser = new ApplicationUser
-        {
-            UserName = adminEmail,
-            Email = adminEmail,
-            FullName = "Administrator",
-            EmailConfirmed = true
-        };
-        var result = await userManager.CreateAsync(adminUser, adminPassword);
-        if (result.Succeeded)
-        {
-            await userManager.AddToRoleAsync(adminUser, "Admin");
-        }
+        admin = new ApplicationUser { UserName = adminEmail, Email = adminEmail, FullName = "Administrator", EmailConfirmed = true };
+        var r = await userManager.CreateAsync(admin, adminPassword);
+        if (r.Succeeded) await userManager.AddToRoleAsync(admin, "Admin");
     }
-    else
+    else if (!await userManager.IsInRoleAsync(admin, "Admin"))
     {
-        // Đảm bảo user đã có role Admin
-        if (!await userManager.IsInRoleAsync(adminUser, "Admin"))
-        {
-            await userManager.AddToRoleAsync(adminUser, "Admin");
-        }
+        await userManager.AddToRoleAsync(admin, "Admin");
     }
 }

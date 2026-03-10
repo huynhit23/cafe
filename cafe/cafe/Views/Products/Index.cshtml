@@ -1,0 +1,102 @@
+@model IEnumerable<cafe.Models.Product>
+@{
+    ViewData["Title"] = "Sản phẩm";
+    var categories = ViewBag.Categories as List<cafe.Models.Category> ?? new();
+    var search = ViewBag.Search as string;
+    var selectedCat = ViewBag.SelectedCategory as int?;
+}
+
+<section class="py-5" style="background:var(--cafe-cream); min-height:60vh;">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="section-title">Sản phẩm của chúng tôi</h2>
+            <p class="section-subtitle mt-2">Khám phá hương vị cà phê từ khắp nơi trên thế giới</p>
+        </div>
+
+        <!-- Search & Filter -->
+        <form method="get" class="mb-4">
+            <div class="row g-3 align-items-center">
+                <div class="col-md-6">
+                    <div class="input-group">
+                        <input type="text" name="search" value="@search" class="form-control" placeholder="Tìm kiếm sản phẩm..." />
+                        <button type="submit" class="btn" style="background:var(--cafe-brown);color:#fff;"><i class="fas fa-search"></i></button>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <select name="categoryId" class="form-select" onchange="this.form.submit()">
+                        <option value="">-- Tất cả danh mục --</option>
+                        @foreach (var cat in categories)
+                        {
+                            if (selectedCat == cat.Id)
+                            {
+                                <option value="@cat.Id" selected>@cat.Name</option>
+                            }
+                            else
+                            {
+                                <option value="@cat.Id">@cat.Name</option>
+                            }
+                        }
+                    </select>
+                </div>
+                @if (!string.IsNullOrEmpty(search) || selectedCat.HasValue)
+                {
+                    <div class="col-md-2">
+                        <a href="/Products" class="btn-cafe-outline w-100 justify-content-center" style="padding:.5rem;">Xóa lọc</a>
+                    </div>
+                }
+            </div>
+        </form>
+
+        @if (!Model.Any())
+        {
+            <div class="text-center py-5 text-muted">
+                <i class="fas fa-search fa-3x mb-3 d-block" style="color:var(--cafe-light);"></i>
+                <p>Không tìm thấy sản phẩm nào.</p>
+            </div>
+        }
+        else
+        {
+            <div class="row g-4">
+                @foreach (var p in Model)
+                {
+                    <div class="col-6 col-md-4 col-lg-3">
+                        <div class="product-card h-100">
+                            <a asp-controller="Products" asp-action="Details" asp-route-id="@p.Id" style="text-decoration:none;color:inherit;">
+                                <div class="card-img-wrap">
+                                    @if (!string.IsNullOrEmpty(p.ImageUrl))
+                                    {
+                                        <img src="@p.ImageUrl" alt="@p.Name" />
+                                    }
+                                    else
+                                    {
+                                        <i class="fas fa-coffee" style="font-size:3rem;color:var(--cafe-light);"></i>
+                                    }
+                                </div>
+                                <div class="card-body">
+                                    <div class="product-category">@p.Category?.Name</div>
+                                    <div class="product-name">@p.Name</div>
+                                </div>
+                            </a>
+                            <div class="card-body pt-0">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="product-price">@p.Price.ToString("N0") ₫</span>
+                                    @if (p.StockQuantity > 0)
+                                    {
+                                        <button class="btn-cafe" style="padding:.4rem .85rem;font-size:.8rem;"
+                                                onclick="addToCart(@p.Id)">
+                                            <i class="fas fa-shopping-bag me-1"></i>Thêm
+                                        </button>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-secondary">Hết hàng</span>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+</section>

@@ -1,0 +1,71 @@
+@model IEnumerable<cafe.Models.Order>
+@{
+    ViewData["Title"] = "Lịch sử đơn hàng";
+}
+
+<section class="py-5">
+    <div class="container">
+        <h3 style="font-family:'Playfair Display',serif;color:var(--cafe-brown);" class="mb-4">
+            <i class="fas fa-box me-2"></i>Đơn hàng của bạn
+        </h3>
+
+        @if (!Model.Any())
+        {
+            <div class="text-center py-5 text-muted">
+                <i class="fas fa-shopping-bag fa-3x mb-3 d-block" style="color:var(--cafe-light);"></i>
+                <h5>Bạn chưa có đơn hàng nào</h5>
+                <a asp-controller="Products" asp-action="Index" class="btn-cafe mt-3 d-inline-flex">
+                    Mua sắm ngay
+                </a>
+            </div>
+        }
+        else
+        {
+            foreach (var order in Model)
+            {
+                var statusColor = order.Status switch
+                {
+                    "Pending"   => "warning",
+                    "Processing"=> "info",
+                    "Shipped"   => "primary",
+                    "Delivered" => "success",
+                    "Cancelled" => "danger",
+                    _           => "secondary"
+                };
+                var statusLabel = order.Status switch
+                {
+                    "Pending"    => "Chờ xác nhận",
+                    "Processing" => "Đang xử lý",
+                    "Shipped"    => "Đang giao",
+                    "Delivered"  => "Đã giao",
+                    "Cancelled"  => "Đã hủy",
+                    _            => order.Status
+                };
+
+                <div class="order-card">
+                    <div class="order-card-header">
+                        <div>
+                            <strong style="color:var(--cafe-brown);">Đơn #@order.Id</strong>
+                            <span class="text-muted ms-3" style="font-size:.85rem;">
+                                <i class="fas fa-calendar me-1"></i>@order.OrderDate.ToString("dd/MM/yyyy HH:mm")
+                            </span>
+                        </div>
+                        <div class="d-flex align-items-center gap-2">
+                            <span class="badge bg-@statusColor">@statusLabel</span>
+                            <strong style="color:var(--cafe-brown);">@order.TotalAmount.ToString("N0") ₫</strong>
+                        </div>
+                    </div>
+                    <div style="padding:1rem 1.25rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.5rem;">
+                        <span class="text-muted" style="font-size:.85rem;">
+                            <i class="fas fa-truck me-1"></i>@(order.ShippingAddress ?? "—")
+                        </span>
+                        <a asp-controller="OrderHistory" asp-action="Details" asp-route-id="@order.Id"
+                           class="btn-cafe-outline" style="padding:.4rem 1rem;font-size:.85rem;">
+                            Xem chi tiết
+                        </a>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</section>

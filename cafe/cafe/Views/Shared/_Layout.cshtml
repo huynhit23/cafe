@@ -1,49 +1,198 @@
-﻿<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="vi">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - cafe</title>
+    <title>@ViewData["Title"] - Cafe Providence</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/cafe.styles.css" asp-append-version="true" />
+    @await RenderSectionAsync("Styles", required: false)
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">cafe</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2026 - cafe - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+@{
+    var cartCount = 0;
+    if (Context.Session.TryGetValue("CartCount", out var ccBytes))
+        cartCount = System.BitConverter.ToInt32(ccBytes, 0);
+}
+
+<!-- NAVBAR -->
+<nav class="cafe-nav">
+    <div class="container">
+        <div class="d-flex align-items-center justify-content-between">
+            <a href="/" class="brand">☕ Providence</a>
+
+            <button class="navbar-toggler d-lg-none border-0" type="button" id="navToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+
+            <div class="d-none d-lg-flex align-items-center gap-3" id="navMenu">
+                <a class="nav-link" asp-controller="Home" asp-action="Index">Trang chủ</a>
+                <a class="nav-link" asp-controller="Home" asp-action="About">Giới thiệu</a>
+                <a class="nav-link" asp-controller="Products" asp-action="Index">Sản phẩm</a>
+                @if (User.Identity?.IsAuthenticated == true)
+                {
+                    <a class="nav-link" asp-controller="OrderHistory" asp-action="Index">Đơn hàng</a>
+                    <div class="dropdown">
+                        <button class="nav-link btn btn-link dropdown-toggle" data-bs-toggle="dropdown">
+                            <i class="fas fa-user-circle me-1"></i>@User.Identity.Name?.Split('@')[0]
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <form asp-controller="UserAccount" asp-action="Logout" method="post">
+                                @Html.AntiForgeryToken()
+                                <li><button class="dropdown-item text-danger" type="submit"><i class="fas fa-sign-out-alt me-1"></i>Đăng xuất</button></li>
+                            </form>
+                        </ul>
+                    </div>
+                }
+                else
+                {
+                    <a class="nav-link" asp-controller="UserAccount" asp-action="Login">Đăng nhập</a>
+                    <a class="btn-cafe" asp-controller="UserAccount" asp-action="Register" style="font-size:.85rem;padding:.45rem 1.1rem;">Đăng ký</a>
+                }
+                <button class="nav-link cart-btn" id="cartOpenBtn" type="button">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span class="d-none d-md-inline">Giỏ hàng</span>
+                    <span class="cart-badge" id="cartBadge">@cartCount</span>
+                </button>
+            </div>
         </div>
-    </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
+    </div>
+</nav>
+
+<!-- MAIN -->
+<main>
+    @RenderBody()
+</main>
+
+<!-- FOOTER -->
+<footer class="cafe-footer mt-5">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="footer-brand">☕ Providence</div>
+                <p style="font-size:.9rem;margin-top:.5rem;">Hương vị cà phê đặc sắc từ những vùng đất nổi tiếng nhất thế giới.</p>
+            </div>
+            <div class="col-md-4">
+                <h6 class="text-white fw-600 mb-3">Liên kết</h6>
+                <ul class="list-unstyled">
+                    <li class="mb-1"><a asp-controller="Home" asp-action="Index">Trang chủ</a></li>
+                    <li class="mb-1"><a asp-controller="Home" asp-action="About">Giới thiệu</a></li>
+                    <li class="mb-1"><a asp-controller="Products" asp-action="Index">Sản phẩm</a></li>
+                </ul>
+            </div>
+            <div class="col-md-4">
+                <h6 class="text-white fw-600 mb-3">Liên hệ</h6>
+                <p style="font-size:.9rem;"><i class="fas fa-map-marker-alt me-2"></i>123 Đường Cà Phê, TP.HCM</p>
+                <p style="font-size:.9rem;"><i class="fas fa-phone me-2"></i>0900 000 000</p>
+                <p style="font-size:.9rem;"><i class="fas fa-envelope me-2"></i>hello@cafeprovidence.vn</p>
+            </div>
+        </div>
+        <div class="footer-bottom text-center">
+            &copy; 2026 Cafe Providence. All rights reserved.
+        </div>
+    </div>
+</footer>
+
+<!-- CART OVERLAY + DRAWER -->
+<div class="cart-overlay" id="cartOverlay"></div>
+<div class="cart-drawer" id="cartDrawer">
+    <div class="cart-drawer-header">
+        <h5><i class="fas fa-shopping-bag me-2"></i>Giỏ hàng</h5>
+        <button class="cart-close-btn" id="cartCloseBtn"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="cart-items" id="cartItemsContainer">
+        <div class="cart-empty"><i class="fas fa-shopping-bag"></i><p>Giỏ hàng đang trống</p></div>
+    </div>
+    <div class="cart-footer" id="cartFooter" style="display:none;">
+        <div class="cart-total"><span>Tổng cộng</span><span id="cartTotal">0 ₫</span></div>
+        <a href="/Checkout" class="btn-cafe w-100 justify-content-center">
+            <i class="fas fa-credit-card me-1"></i>Thanh toán
+        </a>
+    </div>
+</div>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+// Cart Drawer
+const cartBtn = document.getElementById('cartOpenBtn');
+const cartClose = document.getElementById('cartCloseBtn');
+const overlay = document.getElementById('cartOverlay');
+const drawer = document.getElementById('cartDrawer');
+
+function openCart() { drawer.classList.add('open'); overlay.classList.add('open'); loadCart(); }
+function closeCart() { drawer.classList.remove('open'); overlay.classList.remove('open'); }
+if (cartBtn) cartBtn.addEventListener('click', openCart);
+if (cartClose) cartClose.addEventListener('click', closeCart);
+if (overlay) overlay.addEventListener('click', closeCart);
+
+function formatVND(n) { return parseInt(n).toLocaleString('vi-VN') + ' ₫'; }
+
+function loadCart() {
+    fetch('/Cart/GetCart')
+        .then(r => r.json())
+        .then(data => {
+            const container = document.getElementById('cartItemsContainer');
+            const footer = document.getElementById('cartFooter');
+            const badge = document.getElementById('cartBadge');
+
+            if (!data.items || data.items.length === 0) {
+                container.innerHTML = '<div class="cart-empty"><i class="fas fa-shopping-bag"></i><p>Giỏ hàng đang trống</p></div>';
+                footer.style.display = 'none';
+                badge.textContent = '0';
+                return;
+            }
+
+            badge.textContent = data.totalQty;
+            footer.style.display = 'block';
+            document.getElementById('cartTotal').textContent = formatVND(data.totalPrice);
+
+            container.innerHTML = data.items.map(item => `
+                <div class="cart-item">
+                    <img src="${item.imageUrl || '/images/no-image.png'}" alt="${item.name}" onerror="this.src='/images/no-image.png'" />
+                    <div class="cart-item-info">
+                        <div class="cart-item-name">${item.name}</div>
+                        <div class="cart-item-price">${formatVND(item.price)}</div>
+                        <div class="cart-item-qty">
+                            <button class="qty-btn" onclick="updateQty(${item.productId}, -1)">-</button>
+                            <span>${item.quantity}</span>
+                            <button class="qty-btn" onclick="updateQty(${item.productId}, 1)">+</button>
+                        </div>
+                    </div>
+                    <button class="remove-btn" onclick="removeItem(${item.productId})"><i class="fas fa-trash-alt"></i></button>
+                </div>`).join('');
+        });
+}
+
+function updateQty(productId, delta) {
+    fetch(`/Cart/UpdateQty`, { method:'POST', headers:{'Content-Type':'application/json','RequestVerificationToken': getAntiForgeryToken()}, body: JSON.stringify({productId, delta}) })
+        .then(() => loadCart());
+}
+function removeItem(productId) {
+    fetch(`/Cart/Remove/${productId}`, { method:'POST', headers:{'RequestVerificationToken': getAntiForgeryToken()} })
+        .then(() => loadCart());
+}
+function getAntiForgeryToken() {
+    const el = document.querySelector('input[name="__RequestVerificationToken"]');
+    return el ? el.value : '';
+}
+
+// Add to cart from product pages
+function addToCart(productId) {
+    fetch('/Cart/Add', { method:'POST', headers:{'Content-Type':'application/json','RequestVerificationToken': getAntiForgeryToken()}, body: JSON.stringify({productId, quantity:1}) })
+        .then(r => r.json())
+        .then(data => {
+            document.getElementById('cartBadge').textContent = data.totalQty;
+            openCart();
+        });
+}
+</script>
+@Html.AntiForgeryToken()
+@await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

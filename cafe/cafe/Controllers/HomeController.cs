@@ -1,32 +1,34 @@
+using cafe.Data;
 using cafe.Models;
 using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
+using Microsoft.EntityFrameworkCore;
 
 namespace cafe.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly ApplicationDbContext _db;
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ApplicationDbContext db, ILogger<HomeController> logger)
         {
+            _db = db;
             _logger = logger;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var featured = await _db.Products
+                .Include(p => p.Category)
+                .Where(p => p.IsActive && p.StockQuantity > 0)
+                .OrderByDescending(p => p.CreatedDate)
+                .Take(8)
+                .ToListAsync();
+            return View(featured);
         }
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
+        public IActionResult About() => View();
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
+        public IActionResult Error() => View();
     }
 }
