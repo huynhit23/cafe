@@ -1,42 +1,55 @@
-﻿@model cafe.Models.Category
+@model cafe.Models.Category
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Chi tiết danh mục";
 }
 
-<h1>Details</h1>
-
-<div>
-    <h4>Category</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CreatedDate)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CreatedDate)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IsActive)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IsActive)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+<div class="container mt-4">
+    <div class="card shadow-sm">
+        <div class="card-header bg-info text-white d-flex justify-content-between align-items-center">
+            <h5 class="mb-0"><i class="fas fa-layer-group"></i> @Model.Name</h5>
+            @if (Model.IsActive)
+            {
+                <span class="badge bg-success">Hoạt động</span>
+            }
+            else
+            {
+                <span class="badge bg-secondary">Ẩn</span>
+            }
+        </div>
+        <div class="card-body">
+            <table class="table table-borderless">
+                <tr>
+                    <td width="25%" class="fw-bold text-muted"><i class="fas fa-tag me-1"></i> Tên danh mục</td>
+                    <td class="fw-bold fs-5">@Model.Name</td>
+                </tr>
+                <tr>
+                    <td class="fw-bold text-muted"><i class="fas fa-align-left me-1"></i> Mô tả</td>
+                    <td class="text-muted">@(Model.Description ?? "Chưa có mô tả")</td>
+                </tr>
+                <tr>
+                    <td class="fw-bold text-muted"><i class="fas fa-calendar me-1"></i> Ngày tạo</td>
+                    <td>@Model.CreatedDate.ToString("dd/MM/yyyy")</td>
+                </tr>
+                <tr>
+                    <td class="fw-bold text-muted"><i class="fas fa-toggle-on me-1"></i> Trạng thái</td>
+                    <td>
+                        @if (Model.IsActive)
+                        {
+                            <span class="badge bg-success">Hoạt động</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-secondary">Ẩn</span>
+                        }
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="card-footer bg-light d-flex gap-2">
+            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning"><i class="fas fa-edit"></i> Sửa</a>
+            <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger"><i class="fas fa-trash"></i> Xóa</a>
+            <a asp-action="Index" class="btn btn-secondary ms-auto"><i class="fas fa-arrow-left"></i> Quay lại</a>
+        </div>
+    </div>
 </div>

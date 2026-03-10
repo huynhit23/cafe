@@ -1,4 +1,4 @@
-﻿
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -48,38 +48,32 @@
                      style="opacity: .8">
                 <span class="brand-text font-weight-light">Providence</span>
             </a>
-            
+            <div class="sidebar">
                 <nav class="mt-2">
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                         <li class="nav-header">Manage Providence</li>
                         <li class="nav-item">
-                            <a asp-area="Admin" asp-controller="CategoriesAdmin" asp-action="Index" class="nav-link">
+                            <a asp-area="Admin" asp-controller="Categories" asp-action="Index" class="nav-link">
                                 <i class="fa-solid fa-layer-group"></i>
                                 <p>Manage Categories</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a asp-area="Admin" asp-controller="ProductsAdmin" asp-action="Index" class="nav-link">
+                            <a asp-area="Admin" asp-controller="Products" asp-action="Index" class="nav-link">
                                 <i class="nav-icon fas fa-tree"></i>
                                 <p>Manage Products</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a asp-area="Admin" asp-controller="NewsAdmin" asp-action="Index" class="nav-link">
+                            <a asp-area="Admin" asp-controller="Blogs" asp-action="Index" class="nav-link">
                                 <i class="nav-icon fas fa-book"></i>
-                                <p>Manage News</p>
+                                <p>Manage Blogs</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a asp-area="Admin" asp-controller="AccountsAdmin" asp-action="Index" class="nav-link">
-                                <i class="fa-solid fa-user-gear"></i>
-                                <p>Manage Accounts</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a asp-area="Admin" asp-controller="OrdersAdmin" asp-action="Index" class="nav-link">
+                            <a asp-area="Admin" asp-controller="Orders" asp-action="Index" class="nav-link">
                                 <i class="fa-solid fa-truck-fast"></i>
-                                <p>Manage OrderDetails</p>
+                                <p>Manage Orders</p>
                             </a>
                         </li>
 

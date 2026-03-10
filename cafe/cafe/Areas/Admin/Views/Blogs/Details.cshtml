@@ -1,48 +1,45 @@
-﻿@model cafe.Models.Blog
+@model cafe.Models.Blog
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Chi tiết bài viết";
 }
 
-<h1>Details</h1>
+<div class="container mt-4">
+    <div class="card shadow-sm">
+        <div class="card-header bg-info text-white d-flex justify-content-between align-items-center">
+            <h5 class="mb-0"><i class="fas fa-newspaper"></i> @Model.Title</h5>
+            @if (Model.IsPublished)
+            {
+                <span class="badge bg-success">Đã đăng</span>
+            }
+            else
+            {
+                <span class="badge bg-secondary">Nháp</span>
+            }
+        </div>
 
-<div>
-    <h4>Blog</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Title)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Content)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Content)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ImageUrl)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ImageUrl)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CreatedDate)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CreatedDate)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IsPublished)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IsPublished)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+        @if (!string.IsNullOrEmpty(Model.ImageUrl))
+        {
+            <div style="max-height: 320px; overflow: hidden;">
+                <img src="@Model.ImageUrl" alt="@Model.Title"
+                     class="w-100" style="object-fit: cover; max-height: 320px;" />
+            </div>
+        }
+
+        <div class="card-body">
+            <div class="d-flex gap-3 text-muted small mb-4">
+                <span><i class="fas fa-calendar"></i> @Model.CreatedDate.ToString("dd/MM/yyyy")</span>
+            </div>
+
+            <div class="border-top pt-3" style="line-height: 1.8; font-size: 1rem;">
+                @Html.Raw(Model.Content)
+            </div>
+        </div>
+
+        <div class="card-footer bg-light d-flex gap-2">
+            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning"><i class="fas fa-edit"></i> Sửa</a>
+            <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger"><i class="fas fa-trash"></i> Xóa</a>
+            <a asp-action="Index" class="btn btn-secondary ms-auto"><i class="fas fa-arrow-left"></i> Quay lại</a>
+        </div>
+    </div>
 </div>

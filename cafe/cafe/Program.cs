@@ -17,7 +17,18 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddDefaultTokenProviders();
 
 // MVC
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews(options =>
+{
+    // Cho phép nhận HTML content từ rich text editor (Summernote)
+    options.MaxModelBindingCollectionSize = int.MaxValue;
+});
+// Tăng giới hạn kích thước request để nhận ảnh base64 từ Summernote
+builder.Services.Configure<Microsoft.AspNetCore.Http.Features.FormOptions>(options =>
+{
+    options.ValueLengthLimit = int.MaxValue;
+    options.MultipartBodyLengthLimit = int.MaxValue;
+    options.MultipartHeadersLengthLimit = int.MaxValue;
+});
 
 var app = builder.Build();
 
