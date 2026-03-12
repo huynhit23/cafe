@@ -6,6 +6,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>@ViewData["Title"]</title>
+    <link rel="icon" type="image/png" href="/favicon.png?v=3">
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet"
           href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -21,7 +22,7 @@
 <body class="hold-transition dark-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
     <div class="wrapper">
         <div class="preloader flex-column justify-content-center align-items-center">
-            <a asp-area="" asp-action="Index" asp-controller="Home">
+            <a asp-area="Admin" asp-action="Index" asp-controller="Dashboard">
                 <img class="animation__wobble" src="~/StyleAdmin/dist/img/AdminLTELogo.png" alt="#" height="60" width="60">
             </a>
         </div>
@@ -54,7 +55,7 @@
             </ul>
         </nav>
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
-            <a asp-area="" asp-action="Index" asp-controller="Home" class="brand-link">
+            <a asp-area="Admin" asp-action="Index" asp-controller="Dashboard" class="brand-link">
                 <img src="~/StyleAdmin/dist/img/AdminLTELogo.png" alt="#" class="brand-image img-circle elevation-3"
                      style="opacity: .8">
                 <span class="brand-text font-weight-light">Providence</span>
@@ -91,6 +92,12 @@
                             <a asp-area="Admin" asp-controller="Users" asp-action="Index" class="nav-link">
                                 <i class="fas fa-users"></i>
                                 <p>Manage Accounts</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a asp-area="Admin" asp-controller="Feedbacks" asp-action="Index" class="nav-link">
+                                <i class="fas fa-comments"></i>
+                                <p>Manage Feedbacks</p>
                             </a>
                         </li>
 

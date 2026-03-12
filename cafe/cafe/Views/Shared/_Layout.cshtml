@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="icon" type="image/png" href="/favicon.png?v=3" />
     @await RenderSectionAsync("Styles", required: false)
 </head>
 <body>
@@ -33,6 +34,8 @@
                 <a class="nav-link" asp-controller="Home" asp-action="Index">Trang chủ</a>
                 <a class="nav-link" asp-controller="Home" asp-action="About">Giới thiệu</a>
                 <a class="nav-link" asp-controller="Products" asp-action="Index">Sản phẩm</a>
+                <a class="nav-link" asp-controller="Blogs" asp-action="Index">Tin tức</a>
+                <a class="nav-link" asp-controller="Feedback" asp-action="Index">Góp ý</a>
                 @if (User.Identity?.IsAuthenticated == true)
                 {
                     <a class="nav-link" asp-controller="OrderHistory" asp-action="Index">Đơn hàng</a>

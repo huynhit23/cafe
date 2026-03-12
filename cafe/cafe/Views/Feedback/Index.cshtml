@@ -1,0 +1,95 @@
+@{
+    ViewData["Title"] = "Góp ý & Phản hồi";
+}
+
+<div class="container-fluid bg-dark py-5 mb-5 page-header" style="background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/img/bg.jpg'); background-size: cover;">
+    <div class="container py-5">
+        <h1 class="display-3 text-white mb-3 animated slideInDown">Góp ý & Phản hồi</h1>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb justify-content-start text-uppercase mb-0">
+                <li class="breadcrumb-item"><a class="text-white" href="/">Trang chủ</a></li>
+                <li class="breadcrumb-item text-white active" aria-current="page">Phản hồi</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<div class="container-xxl py-5">
+    <div class="container">
+        <div class="row g-5">
+            <div class="col-lg-6 wow fadeIn" data-wow-delay="0.1s">
+                <p class="fs-5 fw-medium fst-italic text-primary">Chúng tôi luôn lắng nghe</p>
+                <h1 class="display-6">Ý kiến của bạn giúp chúng tôi hoàn thiện hơn</h1>
+                <p class="mb-4">Mọi đóng góp về chất lượng dịch vụ, món ăn hay không gian quán đều rất đáng quý đối với Providence Cafe.</p>
+                <div class="d-flex align-items-center mb-3">
+                    <div class="d-flex align-items-center justify-content-center flex-shrink-0 bg-primary rounded-circle" style="width: 50px; height: 50px;">
+                        <i class="fa fa-map-marker-alt text-white"></i>
+                    </div>
+                    <div class="ms-3">
+                        <small class="text-primary">Địa chỉ</small>
+                        <p class="mb-0">123 Đường Cà Phê, TP.HCM</p>
+                    </div>
+                </div>
+                <div class="d-flex align-items-center mb-3">
+                    <div class="d-flex align-items-center justify-content-center flex-shrink-0 bg-primary rounded-circle" style="width: 50px; height: 50px;">
+                        <i class="fa fa-phone-alt text-white"></i>
+                    </div>
+                    <div class="ms-3">
+                        <small class="text-primary">Điện thoại</small>
+                        <p class="mb-0">0900 000 000</p>
+                    </div>
+                </div>
+                <div class="d-flex align-items-center">
+                    <div class="d-flex align-items-center justify-content-center flex-shrink-0 bg-primary rounded-circle" style="width: 50px; height: 50px;">
+                        <i class="fa fa-envelope-open text-white"></i>
+                    </div>
+                    <div class="ms-3">
+                        <small class="text-primary">Email</small>
+                        <p class="mb-0">hello@cafeprovidence.vn</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 wow fadeIn" data-wow-delay="0.5s">
+                <div class="bg-light p-5 rounded">
+                    @if (TempData["Success"] != null)
+                    {
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <i class="fas fa-check-circle me-2"></i> @TempData["Success"]
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    }
+                    <form asp-action="Create" method="post">
+                        <div class="row g-3">
+                            <div class="col-12">
+                                <label class="form-label">Đánh giá của bạn</label>
+                                <div class="rating-stars mb-2">
+                                    <input type="radio" name="rating" value="5" id="5" checked><label for="5">☆</label>
+                                    <input type="radio" name="rating" value="4" id="4"><label for="4">☆</label>
+                                    <input type="radio" name="rating" value="3" id="3"><label for="3">☆</label>
+                                    <input type="radio" name="rating" value="2" id="2"><label for="2">☆</label>
+                                    <input type="radio" name="rating" value="1" id="1"><label for="1">☆</label>
+                                </div>
+                                <style>
+                                    .rating-stars { display: flex; flex-direction: row-reverse; justify-content: start; }
+                                    .rating-stars input { display: none; }
+                                    .rating-stars label { font-size: 2rem; color: #ddd; cursor: pointer; transition: 0.2s; }
+                                    .rating-stars input:checked ~ label { color: #f5b301; }
+                                    .rating-stars label:hover, .rating-stars label:hover ~ label { color: #f5b301; }
+                                </style>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-floating">
+                                    <textarea class="form-control" name="content" placeholder="Để lại ý kiến của bạn" id="message" style="height: 150px" required></textarea>
+                                    <label for="message">Nội dung góp ý</label>
+                                </div>
+                            </div>
+                            <div class="col-12 text-center">
+                                <button class="btn btn-primary rounded-pill py-3 px-5" type="submit">Gửi phản hồi</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

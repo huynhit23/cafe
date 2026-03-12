@@ -23,36 +23,32 @@ namespace cafe.Controllers
         {
             if (User.Identity?.IsAuthenticated == true)
                 return RedirectToAction("Index", "Home");
-            ViewData["ReturnUrl"] = returnUrl;
-            return View();
+            
+            return View(new cafe.Models.ViewModels.LoginViewModel { });
         }
 
         // POST /UserAccount/Login
         [HttpPost, ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login(string email, string password, bool rememberMe = false, string? returnUrl = null)
+        public async Task<IActionResult> Login(cafe.Models.ViewModels.LoginViewModel model, string? returnUrl = null)
         {
-            ViewData["ReturnUrl"] = returnUrl;
-            if (string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(password))
-            {
-                ViewData["Error"] = "Vui lòng nhập đầy đủ thông tin.";
-                return View();
-            }
+            if (!ModelState.IsValid)
+                return View(model);
 
-            var user = await _userManager.FindByEmailAsync(email);
+            var user = await _userManager.FindByEmailAsync(model.Email);
             if (user == null)
             {
-                ViewData["Error"] = "Email hoặc mật khẩu không đúng.";
-                return View();
+                ModelState.AddModelError("", "Email hoặc mật khẩu không đúng.");
+                return View(model);
             }
 
             // Admin không được đăng nhập qua form user
             if (await _userManager.IsInRoleAsync(user, "Admin"))
             {
-                ViewData["Error"] = "Vui lòng dùng trang đăng nhập Admin.";
-                return View();
+                ModelState.AddModelError("", "Vui lòng dùng trang đăng nhập Admin.");
+                return View(model);
             }
 
-            var result = await _signIn.PasswordSignInAsync(user, password, rememberMe, lockoutOnFailure: false);
+            var result = await _signIn.PasswordSignInAsync(user, model.Password, model.RememberMe, lockoutOnFailure: false);
             if (result.Succeeded)
             {
                 if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
@@ -60,34 +56,37 @@ namespace cafe.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-            ViewData["Error"] = "Email hoặc mật khẩu không đúng.";
-            return View();
+            ModelState.AddModelError("", "Email hoặc mật khẩu không đúng.");
+            return View(model);
         }
 
         // GET /UserAccount/Register
         [HttpGet]
-        public IActionResult Register() => View();
+        public IActionResult Register() => View(new cafe.Models.ViewModels.RegisterViewModel());
 
         // POST /UserAccount/Register
         [HttpPost, ValidateAntiForgeryToken]
-        public async Task<IActionResult> Register(string fullName, string email, string password, string confirmPassword)
+        public async Task<IActionResult> Register(cafe.Models.ViewModels.RegisterViewModel model)
         {
-            if (password != confirmPassword)
-            {
-                ViewData["Error"] = "Mật khẩu xác nhận không khớp.";
-                return View();
-            }
+            if (!ModelState.IsValid)
+                return View(model);
 
             var user = new ApplicationUser
             {
-                UserName = email, Email = email,
-                FullName = fullName, EmailConfirmed = true
+                UserName = model.Email, 
+                Email = model.Email,
+                FullName = model.FullName, 
+                EmailConfirmed = true
             };
-            var result = await _userManager.CreateAsync(user, password);
+            
+            var result = await _userManager.CreateAsync(user, model.Password);
             if (!result.Succeeded)
             {
-                ViewData["Error"] = string.Join("; ", result.Errors.Select(e => e.Description));
-                return View();
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError("", error.Description);
+                }
+                return View(model);
             }
 
             await _userManager.AddToRoleAsync(user, "User");

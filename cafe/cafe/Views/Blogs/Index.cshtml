@@ -1,0 +1,84 @@
+@model IEnumerable<cafe.Models.Blog>
+
+@{
+    ViewData["Title"] = "Tin tức & Sự kiện";
+}
+
+<!-- Hero Header Section -->
+<div class="container-fluid bg-dark py-5 mb-5 page-header" style="background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/img/bg.jpg'); background-size: cover;">
+    <div class="container py-5">
+        <h1 class="display-3 text-white mb-3 animated slideInDown">Tin tức & Sự kiện</h1>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb justify-content-start text-uppercase mb-0">
+                <li class="breadcrumb-item"><a class="text-white" href="/">Trang chủ</a></li>
+                <li class="breadcrumb-item text-white active" aria-current="page">Blog</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<div class="container-xxl py-5">
+    <div class="container">
+        <div class="section-title text-center mx-auto wow fadeInUp" data-wow-delay="0.1s" style="max-width: 500px;">
+            <p class="fs-5 fw-medium fst-italic text-primary">Our Blog</p>
+            <h1 class="display-6">Khám phá câu chuyện của chúng tôi</h1>
+        </div>
+        <div class="row g-4 mt-2">
+            @if (!Model.Any())
+            {
+                <div class="col-12 text-center py-5">
+                    <p class="text-muted">Chưa có bài viết nào được đăng tải.</p>
+                </div>
+            }
+            else
+            {
+                @foreach (var item in Model)
+                {
+                    <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                        <div class="store-item position-relative text-center shadow-sm rounded overflow-hidden h-100">
+                            <img class="img-fluid w-100" src="@(string.IsNullOrEmpty(item.ImageUrl) ? "/img/blog-default.jpg" : item.ImageUrl)" alt="@item.Title" style="height: 250px; object-fit: cover;">
+                            <div class="p-4">
+                                <h4 class="mb-3">@item.Title</h4>
+                                <p class="text-muted small mb-3">
+                                    <i class="far fa-calendar-alt text-primary me-2"></i>@item.CreatedDate.ToString("dd/MM/yyyy")
+                                </p>
+                                <p class="text-truncate" style="max-height: 50px;">
+                                    @(item.Content.Length > 100 ? item.Content.Substring(0, 100) + "..." : item.Content)
+                                </p>
+                            </div>
+                            <div class="store-overlay">
+                                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary rounded-pill py-2 px-4 m-2">Đọc thêm <i class="fa fa-arrow-right ms-2"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</div>
+
+<style>
+    .store-item {
+        transition: .5s;
+        background: #fff;
+    }
+    .store-item:hover {
+        transform: translateY(-10px);
+    }
+    .store-overlay {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(0, 0, 0, .5);
+        opacity: 0;
+        transition: .5s;
+    }
+    .store-item:hover .store-overlay {
+        opacity: 1;
+    }
+</style>

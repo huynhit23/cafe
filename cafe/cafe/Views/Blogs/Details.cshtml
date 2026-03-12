@@ -1,0 +1,55 @@
+@model cafe.Models.Blog
+
+@{
+    ViewData["Title"] = Model.Title;
+}
+
+<div class="container-fluid bg-dark py-5 mb-5 page-header" style="background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/img/bg.jpg'); background-size: cover;">
+    <div class="container py-5">
+        <h1 class="display-3 text-white mb-3 animated slideInDown">Chi tiết bài viết</h1>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb justify-content-start text-uppercase mb-0">
+                <li class="breadcrumb-item"><a class="text-white" href="/">Trang chủ</a></li>
+                <li class="breadcrumb-item"><a class="text-white" asp-action="Index">Blog</a></li>
+                <li class="breadcrumb-item text-white active" aria-current="page">@Model.Title</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<div class="container-xxl py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto wow fadeInUp" data-wow-delay="0.1s">
+                <div class="blog-details rounded shadow-sm p-4 p-md-5 bg-white">
+                    <h1 class="display-5 mb-4">@Model.Title</h1>
+                    <div class="d-flex align-items-center mb-4 text-muted">
+                        <span class="me-3"><i class="far fa-calendar-alt text-primary me-2"></i>@Model.CreatedDate.ToString("dd MMMM, yyyy")</span>
+                        <span><i class="far fa-user text-primary me-2"></i>Admin</span>
+                    </div>
+                    
+                    @if (!string.IsNullOrEmpty(Model.ImageUrl))
+                    {
+                        <img src="@Model.ImageUrl" class="img-fluid rounded mb-4 w-100 shadow-sm" alt="@Model.Title">
+                    }
+
+                    <div class="content mt-4" style="line-height: 1.8; font-size: 1.1rem; color: #444;">
+                        @Html.Raw(Model.Content.Replace("\n", "<br/>"))
+                    </div>
+
+                    <div class="border-top mt-5 pt-4">
+                        <a asp-action="Index" class="btn btn-outline-primary rounded-pill py-2 px-4 shadow-sm">
+                            <i class="fa fa-arrow-left me-2"></i>Quay lại danh sách
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .blog-details .content {
+        white-space: pre-wrap; /* Fallback for white-space */
+    }
+</style>

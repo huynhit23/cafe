@@ -1,53 +1,53 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "E:\\uuuuu\\cafe\\",
+  "WorkspaceRootPath": "C:\\Users\\DELL\\OneDrive\\M\u00E1y t\u00EDnh\\Cafe\\cafe\\cafe\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{4C25C025-ABC7-C7BD-213B-79EE17246708}|cafe\\cafe.csproj|e:\\uuuuu\\cafe\\cafe\\areas\\admin\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "AbsoluteMoniker": "D:0:0:{4C25C025-ABC7-C7BD-213B-79EE17246708}|cafe\\cafe.csproj|c:\\users\\dell\\onedrive\\m\u00E1y t\u00EDnh\\cafe\\cafe\\cafe\\cafe\\areas\\admin\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{4C25C025-ABC7-C7BD-213B-79EE17246708}|cafe\\cafe.csproj|solutionrelative:cafe\\areas\\admin\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4C25C025-ABC7-C7BD-213B-79EE17246708}|cafe\\cafe.csproj|e:\\uuuuu\\cafe\\cafe\\areas\\admin\\views\\dashboard\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "AbsoluteMoniker": "D:0:0:{4C25C025-ABC7-C7BD-213B-79EE17246708}|cafe\\cafe.csproj|c:\\users\\dell\\onedrive\\m\u00E1y t\u00EDnh\\cafe\\cafe\\cafe\\cafe\\areas\\admin\\views\\dashboard\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{4C25C025-ABC7-C7BD-213B-79EE17246708}|cafe\\cafe.csproj|solutionrelative:cafe\\areas\\admin\\views\\dashboard\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4C25C025-ABC7-C7BD-213B-79EE17246708}|cafe\\cafe.csproj|e:\\uuuuu\\cafe\\cafe\\areas\\admin\\views\\shared\\_validationscriptspartial.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "AbsoluteMoniker": "D:0:0:{4C25C025-ABC7-C7BD-213B-79EE17246708}|cafe\\cafe.csproj|c:\\users\\dell\\onedrive\\m\u00E1y t\u00EDnh\\cafe\\cafe\\cafe\\cafe\\areas\\admin\\views\\shared\\_validationscriptspartial.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{4C25C025-ABC7-C7BD-213B-79EE17246708}|cafe\\cafe.csproj|solutionrelative:cafe\\areas\\admin\\views\\shared\\_validationscriptspartial.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4C25C025-ABC7-C7BD-213B-79EE17246708}|cafe\\cafe.csproj|e:\\uuuuu\\cafe\\cafe\\areas\\admin\\views\\categories\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "AbsoluteMoniker": "D:0:0:{4C25C025-ABC7-C7BD-213B-79EE17246708}|cafe\\cafe.csproj|c:\\users\\dell\\onedrive\\m\u00E1y t\u00EDnh\\cafe\\cafe\\cafe\\cafe\\areas\\admin\\views\\categories\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{4C25C025-ABC7-C7BD-213B-79EE17246708}|cafe\\cafe.csproj|solutionrelative:cafe\\areas\\admin\\views\\categories\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4C25C025-ABC7-C7BD-213B-79EE17246708}|cafe\\cafe.csproj|e:\\uuuuu\\cafe\\cafe\\areas\\admin\\views\\categories\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "AbsoluteMoniker": "D:0:0:{4C25C025-ABC7-C7BD-213B-79EE17246708}|cafe\\cafe.csproj|c:\\users\\dell\\onedrive\\m\u00E1y t\u00EDnh\\cafe\\cafe\\cafe\\cafe\\areas\\admin\\views\\categories\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{4C25C025-ABC7-C7BD-213B-79EE17246708}|cafe\\cafe.csproj|solutionrelative:cafe\\areas\\admin\\views\\categories\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4C25C025-ABC7-C7BD-213B-79EE17246708}|cafe\\cafe.csproj|e:\\uuuuu\\cafe\\cafe\\models\\category.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{4C25C025-ABC7-C7BD-213B-79EE17246708}|cafe\\cafe.csproj|c:\\users\\dell\\onedrive\\m\u00E1y t\u00EDnh\\cafe\\cafe\\cafe\\cafe\\models\\category.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{4C25C025-ABC7-C7BD-213B-79EE17246708}|cafe\\cafe.csproj|solutionrelative:cafe\\models\\category.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4C25C025-ABC7-C7BD-213B-79EE17246708}|cafe\\cafe.csproj|e:\\uuuuu\\cafe\\cafe\\areas\\admin\\controllers\\categoriescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{4C25C025-ABC7-C7BD-213B-79EE17246708}|cafe\\cafe.csproj|c:\\users\\dell\\onedrive\\m\u00E1y t\u00EDnh\\cafe\\cafe\\cafe\\cafe\\areas\\admin\\controllers\\categoriescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{4C25C025-ABC7-C7BD-213B-79EE17246708}|cafe\\cafe.csproj|solutionrelative:cafe\\areas\\admin\\controllers\\categoriescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4C25C025-ABC7-C7BD-213B-79EE17246708}|cafe\\cafe.csproj|e:\\uuuuu\\cafe\\cafe\\areas\\admin\\controllers\\dashboardcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{4C25C025-ABC7-C7BD-213B-79EE17246708}|cafe\\cafe.csproj|c:\\users\\dell\\onedrive\\m\u00E1y t\u00EDnh\\cafe\\cafe\\cafe\\cafe\\areas\\admin\\controllers\\dashboardcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{4C25C025-ABC7-C7BD-213B-79EE17246708}|cafe\\cafe.csproj|solutionrelative:cafe\\areas\\admin\\controllers\\dashboardcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4C25C025-ABC7-C7BD-213B-79EE17246708}|cafe\\cafe.csproj|e:\\uuuuu\\cafe\\cafe\\areas\\admin\\controllers\\productscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{4C25C025-ABC7-C7BD-213B-79EE17246708}|cafe\\cafe.csproj|c:\\users\\dell\\onedrive\\m\u00E1y t\u00EDnh\\cafe\\cafe\\cafe\\cafe\\areas\\admin\\controllers\\productscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{4C25C025-ABC7-C7BD-213B-79EE17246708}|cafe\\cafe.csproj|solutionrelative:cafe\\areas\\admin\\controllers\\productscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4C25C025-ABC7-C7BD-213B-79EE17246708}|cafe\\cafe.csproj|e:\\uuuuu\\cafe\\cafe\\areas\\admin\\views\\_viewimports.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "AbsoluteMoniker": "D:0:0:{4C25C025-ABC7-C7BD-213B-79EE17246708}|cafe\\cafe.csproj|c:\\users\\dell\\onedrive\\m\u00E1y t\u00EDnh\\cafe\\cafe\\cafe\\cafe\\areas\\admin\\views\\_viewimports.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{4C25C025-ABC7-C7BD-213B-79EE17246708}|cafe\\cafe.csproj|solutionrelative:cafe\\areas\\admin\\views\\_viewimports.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4C25C025-ABC7-C7BD-213B-79EE17246708}|cafe\\cafe.csproj|e:\\uuuuu\\cafe\\cafe\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{4C25C025-ABC7-C7BD-213B-79EE17246708}|cafe\\cafe.csproj|c:\\users\\dell\\onedrive\\m\u00E1y t\u00EDnh\\cafe\\cafe\\cafe\\cafe\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{4C25C025-ABC7-C7BD-213B-79EE17246708}|cafe\\cafe.csproj|solutionrelative:cafe\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4C25C025-ABC7-C7BD-213B-79EE17246708}|cafe\\cafe.csproj|e:\\uuuuu\\cafe\\cafe\\areas\\admin\\controllers\\blogscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{4C25C025-ABC7-C7BD-213B-79EE17246708}|cafe\\cafe.csproj|c:\\users\\dell\\onedrive\\m\u00E1y t\u00EDnh\\cafe\\cafe\\cafe\\cafe\\areas\\admin\\controllers\\blogscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{4C25C025-ABC7-C7BD-213B-79EE17246708}|cafe\\cafe.csproj|solutionrelative:cafe\\areas\\admin\\controllers\\blogscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
@@ -58,27 +58,15 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 9,
+          "SelectedChildIndex": 6,
           "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "_ValidationScriptsPartial.cshtml",
-              "DocumentMoniker": "E:\\uuuuu\\cafe\\cafe\\Areas\\Admin\\Views\\Shared\\_ValidationScriptsPartial.cshtml",
-              "RelativeDocumentMoniker": "cafe\\Areas\\Admin\\Views\\Shared\\_ValidationScriptsPartial.cshtml",
-              "ToolTip": "E:\\uuuuu\\cafe\\cafe\\Areas\\Admin\\Views\\Shared\\_ValidationScriptsPartial.cshtml",
-              "RelativeToolTip": "cafe\\Areas\\Admin\\Views\\Shared\\_ValidationScriptsPartial.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-03-04T08:36:46.973Z"
-            },
             {
               "$type": "Document",
               "DocumentIndex": 4,
               "Title": "Create.cshtml",
-              "DocumentMoniker": "E:\\uuuuu\\cafe\\cafe\\Areas\\Admin\\Views\\Categories\\Create.cshtml",
+              "DocumentMoniker": "C:\\Users\\DELL\\OneDrive\\M\u00E1y t\u00EDnh\\Cafe\\cafe\\cafe\\cafe\\Areas\\Admin\\Views\\Categories\\Create.cshtml",
               "RelativeDocumentMoniker": "cafe\\Areas\\Admin\\Views\\Categories\\Create.cshtml",
-              "ToolTip": "E:\\uuuuu\\cafe\\cafe\\Areas\\Admin\\Views\\Categories\\Create.cshtml",
+              "ToolTip": "C:\\Users\\DELL\\OneDrive\\M\u00E1y t\u00EDnh\\Cafe\\cafe\\cafe\\cafe\\Areas\\Admin\\Views\\Categories\\Create.cshtml",
               "RelativeToolTip": "cafe\\Areas\\Admin\\Views\\Categories\\Create.cshtml",
               "ViewState": "AgIAABYAAAAAAAAAAAAAAB8AAAACAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
@@ -88,9 +76,9 @@
               "$type": "Document",
               "DocumentIndex": 5,
               "Title": "Category.cs",
-              "DocumentMoniker": "E:\\uuuuu\\cafe\\cafe\\Models\\Category.cs",
+              "DocumentMoniker": "C:\\Users\\DELL\\OneDrive\\M\u00E1y t\u00EDnh\\Cafe\\cafe\\cafe\\cafe\\Models\\Category.cs",
               "RelativeDocumentMoniker": "cafe\\Models\\Category.cs",
-              "ToolTip": "E:\\uuuuu\\cafe\\cafe\\Models\\Category.cs",
+              "ToolTip": "C:\\Users\\DELL\\OneDrive\\M\u00E1y t\u00EDnh\\Cafe\\cafe\\cafe\\cafe\\Models\\Category.cs",
               "RelativeToolTip": "cafe\\Models\\Category.cs",
               "ViewState": "AgIAAAUAAAAAAAAAAAAAwBAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -100,9 +88,9 @@
               "$type": "Document",
               "DocumentIndex": 11,
               "Title": "BlogsController.cs",
-              "DocumentMoniker": "E:\\uuuuu\\cafe\\cafe\\Areas\\Admin\\Controllers\\BlogsController.cs",
+              "DocumentMoniker": "C:\\Users\\DELL\\OneDrive\\M\u00E1y t\u00EDnh\\Cafe\\cafe\\cafe\\cafe\\Areas\\Admin\\Controllers\\BlogsController.cs",
               "RelativeDocumentMoniker": "cafe\\Areas\\Admin\\Controllers\\BlogsController.cs",
-              "ToolTip": "E:\\uuuuu\\cafe\\cafe\\Areas\\Admin\\Controllers\\BlogsController.cs",
+              "ToolTip": "C:\\Users\\DELL\\OneDrive\\M\u00E1y t\u00EDnh\\Cafe\\cafe\\cafe\\cafe\\Areas\\Admin\\Controllers\\BlogsController.cs",
               "RelativeToolTip": "cafe\\Areas\\Admin\\Controllers\\BlogsController.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAEAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -112,9 +100,9 @@
               "$type": "Document",
               "DocumentIndex": 8,
               "Title": "ProductsController.cs",
-              "DocumentMoniker": "E:\\uuuuu\\cafe\\cafe\\Areas\\Admin\\Controllers\\ProductsController.cs",
+              "DocumentMoniker": "C:\\Users\\DELL\\OneDrive\\M\u00E1y t\u00EDnh\\Cafe\\cafe\\cafe\\cafe\\Areas\\Admin\\Controllers\\ProductsController.cs",
               "RelativeDocumentMoniker": "cafe\\Areas\\Admin\\Controllers\\ProductsController.cs",
-              "ToolTip": "E:\\uuuuu\\cafe\\cafe\\Areas\\Admin\\Controllers\\ProductsController.cs",
+              "ToolTip": "C:\\Users\\DELL\\OneDrive\\M\u00E1y t\u00EDnh\\Cafe\\cafe\\cafe\\cafe\\Areas\\Admin\\Controllers\\ProductsController.cs",
               "RelativeToolTip": "cafe\\Areas\\Admin\\Controllers\\ProductsController.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -124,9 +112,9 @@
               "$type": "Document",
               "DocumentIndex": 9,
               "Title": "_ViewImports.cshtml",
-              "DocumentMoniker": "E:\\uuuuu\\cafe\\cafe\\Areas\\Admin\\Views\\_ViewImports.cshtml",
+              "DocumentMoniker": "C:\\Users\\DELL\\OneDrive\\M\u00E1y t\u00EDnh\\Cafe\\cafe\\cafe\\cafe\\Areas\\Admin\\Views\\_ViewImports.cshtml",
               "RelativeDocumentMoniker": "cafe\\Areas\\Admin\\Views\\_ViewImports.cshtml",
-              "ToolTip": "E:\\uuuuu\\cafe\\cafe\\Areas\\Admin\\Views\\_ViewImports.cshtml",
+              "ToolTip": "C:\\Users\\DELL\\OneDrive\\M\u00E1y t\u00EDnh\\Cafe\\cafe\\cafe\\cafe\\Areas\\Admin\\Views\\_ViewImports.cshtml",
               "RelativeToolTip": "cafe\\Areas\\Admin\\Views\\_ViewImports.cshtml",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
@@ -136,9 +124,9 @@
               "$type": "Document",
               "DocumentIndex": 3,
               "Title": "Index.cshtml",
-              "DocumentMoniker": "E:\\uuuuu\\cafe\\cafe\\Areas\\Admin\\Views\\Categories\\Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\DELL\\OneDrive\\M\u00E1y t\u00EDnh\\Cafe\\cafe\\cafe\\cafe\\Areas\\Admin\\Views\\Categories\\Index.cshtml",
               "RelativeDocumentMoniker": "cafe\\Areas\\Admin\\Views\\Categories\\Index.cshtml",
-              "ToolTip": "E:\\uuuuu\\cafe\\cafe\\Areas\\Admin\\Views\\Categories\\Index.cshtml",
+              "ToolTip": "C:\\Users\\DELL\\OneDrive\\M\u00E1y t\u00EDnh\\Cafe\\cafe\\cafe\\cafe\\Areas\\Admin\\Views\\Categories\\Index.cshtml",
               "RelativeToolTip": "cafe\\Areas\\Admin\\Views\\Categories\\Index.cshtml",
               "ViewState": "AgIAADkAAAAAAAAAAAAAAEcAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
@@ -146,11 +134,36 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "_Layout.cshtml",
+              "DocumentMoniker": "C:\\Users\\DELL\\OneDrive\\M\u00E1y t\u00EDnh\\Cafe\\cafe\\cafe\\cafe\\Areas\\Admin\\Views\\Shared\\_Layout.cshtml",
+              "RelativeDocumentMoniker": "cafe\\Areas\\Admin\\Views\\Shared\\_Layout.cshtml",
+              "ToolTip": "C:\\Users\\DELL\\OneDrive\\M\u00E1y t\u00EDnh\\Cafe\\cafe\\cafe\\cafe\\Areas\\Admin\\Views\\Shared\\_Layout.cshtml",
+              "RelativeToolTip": "cafe\\Areas\\Admin\\Views\\Shared\\_Layout.cshtml",
+              "ViewState": "AgIAACIAAAAAAAAAAAAYwCwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-03-04T07:03:08.522Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "_ValidationScriptsPartial.cshtml",
+              "DocumentMoniker": "C:\\Users\\DELL\\OneDrive\\M\u00E1y t\u00EDnh\\Cafe\\cafe\\cafe\\cafe\\Areas\\Admin\\Views\\Shared\\_ValidationScriptsPartial.cshtml",
+              "RelativeDocumentMoniker": "cafe\\Areas\\Admin\\Views\\Shared\\_ValidationScriptsPartial.cshtml",
+              "ToolTip": "C:\\Users\\DELL\\OneDrive\\M\u00E1y t\u00EDnh\\Cafe\\cafe\\cafe\\cafe\\Areas\\Admin\\Views\\Shared\\_ValidationScriptsPartial.cshtml",
+              "RelativeToolTip": "cafe\\Areas\\Admin\\Views\\Shared\\_ValidationScriptsPartial.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-03-04T08:36:46.973Z"
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 10,
               "Title": "Program.cs",
-              "DocumentMoniker": "E:\\uuuuu\\cafe\\cafe\\Program.cs",
+              "DocumentMoniker": "C:\\Users\\DELL\\OneDrive\\M\u00E1y t\u00EDnh\\Cafe\\cafe\\cafe\\cafe\\Program.cs",
               "RelativeDocumentMoniker": "cafe\\Program.cs",
-              "ToolTip": "E:\\uuuuu\\cafe\\cafe\\Program.cs",
+              "ToolTip": "C:\\Users\\DELL\\OneDrive\\M\u00E1y t\u00EDnh\\Cafe\\cafe\\cafe\\cafe\\Program.cs",
               "RelativeToolTip": "cafe\\Program.cs",
               "ViewState": "AgIAAB4AAAAAAAAAAAAAACwAAAACAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -160,9 +173,9 @@
               "$type": "Document",
               "DocumentIndex": 1,
               "Title": "Index.cshtml",
-              "DocumentMoniker": "E:\\uuuuu\\cafe\\cafe\\Areas\\Admin\\Views\\Dashboard\\Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\DELL\\OneDrive\\M\u00E1y t\u00EDnh\\Cafe\\cafe\\cafe\\cafe\\Areas\\Admin\\Views\\Dashboard\\Index.cshtml",
               "RelativeDocumentMoniker": "cafe\\Areas\\Admin\\Views\\Dashboard\\Index.cshtml",
-              "ToolTip": "E:\\uuuuu\\cafe\\cafe\\Areas\\Admin\\Views\\Dashboard\\Index.cshtml",
+              "ToolTip": "C:\\Users\\DELL\\OneDrive\\M\u00E1y t\u00EDnh\\Cafe\\cafe\\cafe\\cafe\\Areas\\Admin\\Views\\Dashboard\\Index.cshtml",
               "RelativeToolTip": "cafe\\Areas\\Admin\\Views\\Dashboard\\Index.cshtml",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAaAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
@@ -170,24 +183,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "_Layout.cshtml",
-              "DocumentMoniker": "E:\\uuuuu\\cafe\\cafe\\Areas\\Admin\\Views\\Shared\\_Layout.cshtml",
-              "RelativeDocumentMoniker": "cafe\\Areas\\Admin\\Views\\Shared\\_Layout.cshtml",
-              "ToolTip": "E:\\uuuuu\\cafe\\cafe\\Areas\\Admin\\Views\\Shared\\_Layout.cshtml",
-              "RelativeToolTip": "cafe\\Areas\\Admin\\Views\\Shared\\_Layout.cshtml",
-              "ViewState": "AgIAACIAAAAAAAAAAAAYwC0AAAADAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-03-04T07:03:08.522Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 7,
               "Title": "DashboardController.cs",
-              "DocumentMoniker": "E:\\uuuuu\\cafe\\cafe\\Areas\\Admin\\Controllers\\DashboardController.cs",
+              "DocumentMoniker": "C:\\Users\\DELL\\OneDrive\\M\u00E1y t\u00EDnh\\Cafe\\cafe\\cafe\\cafe\\Areas\\Admin\\Controllers\\DashboardController.cs",
               "RelativeDocumentMoniker": "cafe\\Areas\\Admin\\Controllers\\DashboardController.cs",
-              "ToolTip": "E:\\uuuuu\\cafe\\cafe\\Areas\\Admin\\Controllers\\DashboardController.cs",
+              "ToolTip": "C:\\Users\\DELL\\OneDrive\\M\u00E1y t\u00EDnh\\Cafe\\cafe\\cafe\\cafe\\Areas\\Admin\\Controllers\\DashboardController.cs",
               "RelativeToolTip": "cafe\\Areas\\Admin\\Controllers\\DashboardController.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -197,9 +197,9 @@
               "$type": "Document",
               "DocumentIndex": 6,
               "Title": "CategoriesController.cs",
-              "DocumentMoniker": "E:\\uuuuu\\cafe\\cafe\\Areas\\Admin\\Controllers\\CategoriesController.cs",
+              "DocumentMoniker": "C:\\Users\\DELL\\OneDrive\\M\u00E1y t\u00EDnh\\Cafe\\cafe\\cafe\\cafe\\Areas\\Admin\\Controllers\\CategoriesController.cs",
               "RelativeDocumentMoniker": "cafe\\Areas\\Admin\\Controllers\\CategoriesController.cs",
-              "ToolTip": "E:\\uuuuu\\cafe\\cafe\\Areas\\Admin\\Controllers\\CategoriesController.cs",
+              "ToolTip": "C:\\Users\\DELL\\OneDrive\\M\u00E1y t\u00EDnh\\Cafe\\cafe\\cafe\\cafe\\Areas\\Admin\\Controllers\\CategoriesController.cs",
               "RelativeToolTip": "cafe\\Areas\\Admin\\Controllers\\CategoriesController.cs",
               "ViewState": "AgIAAHgAAAAAAAAAAAA9wJQAAAAuAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
