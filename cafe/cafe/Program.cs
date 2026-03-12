@@ -54,7 +54,14 @@ builder.Services.AddSession(options =>
     options.Cookie.IsEssential = true;
 });
 
-// MVC
+// ✅ VNPay Service
+builder.Services.AddScoped<cafe.Services.IVnPayService, cafe.Services.VnPayService>();
+
+// ✅ Email Service
+builder.Services.AddScoped<cafe.Services.IEmailService, cafe.Services.EmailService>();
+
+// MVC & SignalR
+builder.Services.AddSignalR();
 builder.Services.AddControllersWithViews(options =>
 {
     options.MaxModelBindingCollectionSize = int.MaxValue;
@@ -88,6 +95,7 @@ app.UseAuthorization();
 
 app.MapControllerRoute(name: "areas", pattern: "{area:exists}/{controller=Dashboard}/{action=Index}/{id?}");
 app.MapControllerRoute(name: "default", pattern: "{controller=Home}/{action=Index}/{id?}");
+app.MapHub<cafe.Hubs.OrderHub>("/orderHub");
 app.Run();
 
 static async Task SeedAdminAsync(IServiceProvider services)

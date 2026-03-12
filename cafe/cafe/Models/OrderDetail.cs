@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace cafe.Models
 {
@@ -14,6 +14,10 @@ namespace cafe.Models
 
         [Column(TypeName = "decimal(18,2)")]
         public decimal Price { get; set; }
+
+        public string Size { get; set; } = "Regular";
+        public string SugarLevel { get; set; } = "100%";
+        public string IceLevel { get; set; } = "100%";
 
         public Order? Order { get; set; }
 

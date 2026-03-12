@@ -10,6 +10,20 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="icon" type="image/png" href="/favicon.png?v=3" />
+    <style>
+        .btn-outline-cafe {
+            border: 1px solid var(--cafe-brown);
+            color: var(--cafe-brown);
+            border-radius: 30px;
+            padding: .4rem 1.25rem;
+            font-size: .9rem;
+            transition: all 0.3s;
+        }
+        .btn-check:checked + .btn-outline-cafe {
+            background-color: var(--cafe-brown);
+            color: #fff;
+        }
+    </style>
     @await RenderSectionAsync("Styles", required: false)
 </head>
 <body>
@@ -38,12 +52,14 @@
                 <a class="nav-link" asp-controller="Feedback" asp-action="Index">Góp ý</a>
                 @if (User.Identity?.IsAuthenticated == true)
                 {
-                    <a class="nav-link" asp-controller="OrderHistory" asp-action="Index">Đơn hàng</a>
                     <div class="dropdown">
                         <button class="nav-link btn btn-link dropdown-toggle" data-bs-toggle="dropdown">
                             <i class="fas fa-user-circle me-1"></i>@User.Identity.Name?.Split('@')[0]
                         </button>
                         <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" asp-controller="Account" asp-action="Profile"><i class="fas fa-id-card me-1"></i>Tài khoản</a></li>
+                            <li><a class="dropdown-item" asp-controller="Account" asp-action="Index"><i class="fas fa-shopping-bag me-1"></i>Đơn hàng của tôi</a></li>
+                            <li><hr class="dropdown-divider"></li>
                             <form asp-controller="UserAccount" asp-action="Logout" method="post">
                                 @Html.AntiForgeryToken()
                                 <li><button class="dropdown-item text-danger" type="submit"><i class="fas fa-sign-out-alt me-1"></i>Đăng xuất</button></li>
@@ -89,9 +105,9 @@
             </div>
             <div class="col-md-4">
                 <h6 class="text-white fw-600 mb-3">Liên hệ</h6>
-                <p style="font-size:.9rem;"><i class="fas fa-map-marker-alt me-2"></i>123 Đường Cà Phê, TP.HCM</p>
-                <p style="font-size:.9rem;"><i class="fas fa-phone me-2"></i>0900 000 000</p>
-                <p style="font-size:.9rem;"><i class="fas fa-envelope me-2"></i>hello@cafeprovidence.vn</p>
+                <p style="font-size:.9rem;"><i class="fas fa-map-marker-alt me-2"></i><a href="https://www.google.com/maps/search/?api=1&query=Ngõ+165+Cổ+Loa,+Đông+Anh,+Hà+Nội" target="_blank" style="color: inherit; text-decoration: underline;">Ngõ 165 Cổ Loa, Đông Anh, Hà Nội</a></p>
+                <p style="font-size:.9rem;"><i class="fas fa-phone me-2"></i><span style="font-style: italic; text-decoration: underline;">0900 000 000</span></p>
+                <p style="font-size:.9rem;"><i class="fas fa-envelope me-2"></i><span style="text-decoration: underline;">cafe@cafeprovidence.vn</span></p>
             </div>
         </div>
         <div class="footer-bottom text-center">
@@ -99,6 +115,8 @@
         </div>
     </div>
 </footer>
+
+@await Html.PartialAsync("_QuickCustomizeModal")
 
 <!-- CART OVERLAY + DRAWER -->
 <div class="cart-overlay" id="cartOverlay"></div>
@@ -160,6 +178,9 @@ function loadCart() {
                     <img src="${item.imageUrl || '/images/no-image.png'}" alt="${item.name}" onerror="this.src='/images/no-image.png'" />
                     <div class="cart-item-info">
                         <div class="cart-item-name">${item.name}</div>
+                        <div class="text-muted small mb-1">
+                            ${item.size} • Đ: ${item.sugarLevel} • Đá: ${item.iceLevel}
+                        </div>
                         <div class="cart-item-price">${formatVND(item.price)}</div>
                         <div class="cart-item-qty">
                             <button class="qty-btn" onclick="updateQty(${item.productId}, -1)">-</button>
@@ -185,14 +206,32 @@ function getAntiForgeryToken() {
     return el ? el.value : '';
 }
 
-// Add to cart from product pages
-function addToCart(productId) {
-    fetch('/Cart/Add', { method:'POST', headers:{'Content-Type':'application/json','RequestVerificationToken': getAntiForgeryToken()}, body: JSON.stringify({productId, quantity:1}) })
-        .then(r => r.json())
-        .then(data => {
-            document.getElementById('cartBadge').textContent = data.totalQty;
-            openCart();
-        });
+// Global addToCart that accepts options
+function addToCart(productId, quantity = 1, size = 'Regular', sugar = '100%', ice = '100%') {
+    fetch('/Cart/Add', { 
+        method:'POST', 
+        headers:{'Content-Type':'application/json','RequestVerificationToken': getAntiForgeryToken()}, 
+        body: JSON.stringify({
+            productId: productId, 
+            quantity: quantity,
+            size: size,
+            sugarLevel: sugar,
+            iceLevel: ice
+        }) 
+    })
+    .then(r => r.json())
+    .then(data => {
+        document.getElementById('cartBadge').textContent = data.totalQty;
+        openCart();
+    });
+}
+
+// Special handler for details page to grab UI values
+function handleAddToCart(productId) {
+    const size = document.querySelector('input[name="size"]:checked').value;
+    const sugar = document.getElementById('sugarLevel').value;
+    const ice = document.getElementById('iceLevel').value;
+    addToCart(productId, 1, size, sugar, ice);
 }
 </script>
 @Html.AntiForgeryToken()

@@ -16,10 +16,12 @@ namespace cafe.Areas.Admin.Controllers
     public class BlogsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IWebHostEnvironment _env;
 
-        public BlogsController(ApplicationDbContext context)
+        public BlogsController(ApplicationDbContext context, IWebHostEnvironment env)
         {
             _context = context;
+            _env = env;
         }
 
         // GET: Admin/Blogs
@@ -53,12 +55,24 @@ namespace cafe.Areas.Admin.Controllers
         }
 
         // POST: Admin/Blogs/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title,Content,ImageUrl,CreatedDate,IsPublished")] Blog blog)
+        public async Task<IActionResult> Create([Bind("Id,Title,Content,ImageUrl,CreatedDate,IsPublished")] Blog blog, IFormFile? imageFile)
         {
+            if (imageFile != null && imageFile.Length > 0)
+            {
+                var fileName = Guid.NewGuid().ToString() + Path.GetExtension(imageFile.FileName);
+                var uploadPath = Path.Combine(_env.WebRootPath, "Images", "blogs");
+                Directory.CreateDirectory(uploadPath);
+                var filePath = Path.Combine(uploadPath, fileName);
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await imageFile.CopyToAsync(stream);
+                }
+                blog.ImageUrl = "/Images/blogs/" + fileName;
+                ModelState.Remove("ImageUrl");
+            }
+
             if (ModelState.IsValid)
             {
                 _context.Add(blog);
@@ -85,15 +99,35 @@ namespace cafe.Areas.Admin.Controllers
         }
 
         // POST: Admin/Blogs/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Content,ImageUrl,CreatedDate,IsPublished")] Blog blog)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Content,ImageUrl,CreatedDate,IsPublished")] Blog blog, IFormFile? imageFile)
         {
             if (id != blog.Id)
             {
                 return NotFound();
+            }
+
+            if (imageFile != null && imageFile.Length > 0)
+            {
+                // Xóa ảnh cũ nếu tồn tại
+                if (!string.IsNullOrEmpty(blog.ImageUrl))
+                {
+                    var oldPath = Path.Combine(_env.WebRootPath, blog.ImageUrl.TrimStart('/'));
+                    if (System.IO.File.Exists(oldPath))
+                        System.IO.File.Delete(oldPath);
+                }
+                // Lưu ảnh mới
+                var fileName = Guid.NewGuid().ToString() + Path.GetExtension(imageFile.FileName);
+                var uploadPath = Path.Combine(_env.WebRootPath, "Images", "blogs");
+                Directory.CreateDirectory(uploadPath);
+                var filePath = Path.Combine(uploadPath, fileName);
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await imageFile.CopyToAsync(stream);
+                }
+                blog.ImageUrl = "/Images/blogs/" + fileName;
+                ModelState.Remove("ImageUrl");
             }
 
             if (ModelState.IsValid)
@@ -145,6 +179,13 @@ namespace cafe.Areas.Admin.Controllers
             var blog = await _context.Blogs.FindAsync(id);
             if (blog != null)
             {
+                // Xóa file ảnh khi xóa blog
+                if (!string.IsNullOrEmpty(blog.ImageUrl))
+                {
+                    var imgPath = Path.Combine(_env.WebRootPath, blog.ImageUrl.TrimStart('/'));
+                    if (System.IO.File.Exists(imgPath))
+                        System.IO.File.Delete(imgPath);
+                }
                 _context.Blogs.Remove(blog);
             }
 

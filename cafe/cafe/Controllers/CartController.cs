@@ -32,18 +32,29 @@ namespace cafe.Controllers
             if (product == null) return NotFound();
 
             var cart = GetCartFromSession();
-            var existing = cart.FirstOrDefault(x => x.ProductId == req.ProductId);
+            var existing = cart.FirstOrDefault(x => 
+                x.ProductId == req.ProductId && 
+                x.Size == req.Size && 
+                x.SugarLevel == req.SugarLevel && 
+                x.IceLevel == req.IceLevel);
+
             if (existing != null)
                 existing.Quantity += req.Quantity;
             else
+            {
+                var priceAdjustment = req.Size == "Medium" ? 5000 : (req.Size == "Large" ? 10000 : 0);
                 cart.Add(new CartItem
                 {
                     ProductId = product.Id,
                     Name = product.Name,
-                    Price = product.Price,
+                    Price = product.Price + priceAdjustment,
                     ImageUrl = product.ImageUrl ?? "",
-                    Quantity = req.Quantity
+                    Quantity = req.Quantity,
+                    Size = req.Size,
+                    SugarLevel = req.SugarLevel,
+                    IceLevel = req.IceLevel
                 });
+            }
 
             SaveCart(cart);
             return Json(new { totalQty = cart.Sum(i => i.Quantity) });
@@ -105,7 +116,17 @@ namespace cafe.Controllers
         public decimal Price { get; set; }
         public string ImageUrl { get; set; } = "";
         public int Quantity { get; set; }
+        public string Size { get; set; } = "Regular";
+        public string SugarLevel { get; set; } = "100%";
+        public string IceLevel { get; set; } = "100%";
     }
-    public class AddToCartRequest { public int ProductId { get; set; } public int Quantity { get; set; } = 1; }
+    public class AddToCartRequest 
+    { 
+        public int ProductId { get; set; } 
+        public int Quantity { get; set; } = 1; 
+        public string Size { get; set; } = "Regular";
+        public string SugarLevel { get; set; } = "100%";
+        public string IceLevel { get; set; } = "100%";
+    }
     public class UpdateQtyRequest { public int ProductId { get; set; } public int Delta { get; set; } }
 }

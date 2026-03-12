@@ -119,7 +119,12 @@
                     {
                         <tr>
                             <td>@i</td>
-                            <td>@(detail.Product?.Name ?? "N/A")</td>
+                            <td>
+                                <div>@(detail.Product?.Name ?? "N/A")</div>
+                                <div class="text-muted small">
+                                    Size: @detail.Size | Đường: @detail.SugarLevel | Đá: @detail.IceLevel
+                                </div>
+                            </td>
                             <td>@detail.Quantity</td>
                             <td>@detail.Price.ToString("N0") VND</td>
                             <td>@((detail.Price * detail.Quantity).ToString("N0")) VND</td>

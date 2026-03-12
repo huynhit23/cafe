@@ -39,12 +39,17 @@
                             <img class="img-fluid w-100" src="@(string.IsNullOrEmpty(item.ImageUrl) ? "/img/blog-default.jpg" : item.ImageUrl)" alt="@item.Title" style="height: 250px; object-fit: cover;">
                             <div class="p-4">
                                 <h4 class="mb-3">@item.Title</h4>
-                                <p class="text-muted small mb-3">
-                                    <i class="far fa-calendar-alt text-primary me-2"></i>@item.CreatedDate.ToString("dd/MM/yyyy")
-                                </p>
-                                <p class="text-truncate" style="max-height: 50px;">
-                                    @(item.Content.Length > 100 ? item.Content.Substring(0, 100) + "..." : item.Content)
-                                </p>
+                                    <p class="text-muted small mb-3">
+                                        <i class="far fa-calendar-alt text-primary me-2"></i>@item.CreatedDate.ToString("dd/MM/yyyy")
+                                    </p>
+                                    <p class="text-truncate" style="max-height: 50px;">
+                                        @{
+                                            var plainText = System.Text.RegularExpressions.Regex.Replace(item.Content ?? "", "<.*?>", string.Empty);
+                                            plainText = System.Net.WebUtility.HtmlDecode(plainText);
+                                            var preview = plainText.Length > 100 ? plainText.Substring(0, 100) + "..." : plainText;
+                                        }
+                                        @preview
+                                    </p>
                             </div>
                             <div class="store-overlay">
                                 <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary rounded-pill py-2 px-4 m-2">Đọc thêm <i class="fa fa-arrow-right ms-2"></i></a>

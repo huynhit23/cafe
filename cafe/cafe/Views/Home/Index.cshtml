@@ -59,7 +59,7 @@
                                 <div class="d-flex justify-content-between align-items-center mt-2">
                                     <span class="product-price">@p.Price.ToString("N0") ₫</span>
                                     <button class="btn-cafe" style="padding:.4rem .85rem;font-size:.8rem;"
-                                            onclick="addToCart(@p.Id)">
+                                            onclick="openQuickCustomize(@p.Id, '@p.Name', '@p.Price', '@p.ImageUrl')">
                                         <i class="fas fa-plus"></i>
                                     </button>
                                 </div>

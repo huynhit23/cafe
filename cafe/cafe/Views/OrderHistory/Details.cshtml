@@ -68,6 +68,9 @@
                             }
                             <div>
                                 <div style="font-weight:600;">@(item.Product?.Name ?? "Sản phẩm")</div>
+                                <div class="text-muted small">
+                                    Size: @item.Size | Đ: @item.SugarLevel | Đá: @item.IceLevel
+                                </div>
                                 <div style="font-size:.85rem;color:var(--text-muted);">@item.Price.ToString("N0") ₫ x @item.Quantity</div>
                             </div>
                         </div>

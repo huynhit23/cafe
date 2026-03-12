@@ -139,6 +139,33 @@
     <!-- <script src="~/StyleAdmin/dist/js/demo.js"></script> -->
     <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
     <script src="~/StyleAdmin/dist/js/pages/dashboard2.js"></script>
+
+    <!-- SignalR & Notifications -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/6.0.1/signalr.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+    <script>
+        const notificationSound = new Audio('https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3');
+
+        const connection = new signalR.HubConnectionBuilder()
+            .withUrl("/orderHub")
+            .build();
+
+        connection.on("ReceiveNewOrder", function (user, amount, orderId) {
+            notificationSound.play();
+            toastr.options = { 
+                "closeButton": true, 
+                "progressBar": true, 
+                "positionClass": "toast-top-right",
+                "timeOut": "10000"
+            };
+            toastr.info(`Đơn hàng mới từ <b>${user}</b><br/>Giá trị: <b>${amount} ₫</b><br/><a href="/Admin/Orders/Details/${orderId}" class="text-white mt-2 d-block"><u>Xem ngay</u></a>`, "TING TING! CÓ ĐƠN MỚI");
+        });
+
+        connection.start().catch(err => console.error(err.toString()));
+    </script>
+
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 

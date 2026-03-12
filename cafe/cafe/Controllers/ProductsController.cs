@@ -1,4 +1,5 @@
 using cafe.Data;
+using cafe.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,6 +14,23 @@ namespace cafe.Controllers
         public async Task<IActionResult> Index(string? search, int? categoryId)
         {
             var categories = await _db.Categories.Where(c => c.IsActive).ToListAsync();
+            var products = await GetFilteredProducts(search, categoryId);
+
+            ViewBag.Categories = categories;
+            ViewBag.Search = search;
+            ViewBag.SelectedCategory = categoryId;
+            return View(products);
+        }
+
+        // GET /Products/Filter (Ajax)
+        public async Task<IActionResult> Filter(string? search, int? categoryId)
+        {
+            var products = await GetFilteredProducts(search, categoryId);
+            return PartialView("_ProductListPartial", products);
+        }
+
+        private async Task<List<Product>> GetFilteredProducts(string? search, int? categoryId)
+        {
             var query = _db.Products
                 .Include(p => p.Category)
                 .Where(p => p.IsActive);
@@ -22,12 +40,7 @@ namespace cafe.Controllers
             if (categoryId.HasValue)
                 query = query.Where(p => p.CategoryId == categoryId.Value);
 
-            var products = await query.OrderByDescending(p => p.CreatedDate).ToListAsync();
-
-            ViewBag.Categories = categories;
-            ViewBag.Search = search;
-            ViewBag.SelectedCategory = categoryId;
-            return View(products);
+            return await query.OrderByDescending(p => p.CreatedDate).ToListAsync();
         }
 
         // GET /Products/Details/5

@@ -1,0 +1,115 @@
+<!-- Quick Customize Modal -->
+<div class="modal fade" id="quickCustomizeModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content shadow-lg border-0" style="border-radius: 24px;">
+            <div class="modal-header border-0 pb-0">
+                <h5 class="modal-title fw-bold" id="quickProductName">Tùy chỉnh món</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body pt-3">
+                <div class="d-flex gap-3 mb-4 align-items-center">
+                    <img id="quickProductImg" src="" style="width:80px;height:80px;object-fit:cover;border-radius:15px;background:var(--cafe-gray);" />
+                    <div>
+                        <div id="quickProductPrice" class="fs-5 fw-bold text-cafe">0 ₫</div>
+                        <div class="text-muted small">Vui lòng chọn các tùy chọn dưới đây</div>
+                    </div>
+                </div>
+
+                <div class="option-group mb-3">
+                    <div class="option-group-title">Kích cỡ</div>
+                    <div class="selection-grid">
+                        <div class="selection-item">
+                            <input type="radio" name="quickSize" id="qsizeReg" value="Regular" checked onchange="updateQuickPrice()"/>
+                            <label class="selection-label" for="qsizeReg">
+                                <i class="fas fa-mug-hot"></i><span>Regular</span><small class="text-muted">+0 ₫</small>
+                            </label>
+                        </div>
+                        <div class="selection-item">
+                            <input type="radio" name="quickSize" id="qsizeMed" value="Medium" onchange="updateQuickPrice()"/>
+                            <label class="selection-label" for="qsizeMed">
+                                <i class="fas fa-mug-hot" style="font-size:1.4rem;"></i><span>Medium</span><small class="text-muted">+5k ₫</small>
+                            </label>
+                        </div>
+                        <div class="selection-item">
+                            <input type="radio" name="quickSize" id="qsizeLar" value="Large" onchange="updateQuickPrice()"/>
+                            <label class="selection-label" for="qsizeLar">
+                                <i class="fas fa-mug-hot" style="font-size:1.6rem;"></i><span>Large</span><small class="text-muted">+10k ₫</small>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row g-3">
+                    <div class="col-6">
+                        <div class="option-group-title">Mức đường</div>
+                        <select class="form-select border-0 bg-light" id="quickSugar" style="border-radius:12px; padding:.7rem;">
+                            <option value="100%">100% (Chuẩn)</option>
+                            <option value="70%">70%</option>
+                            <option value="50%">50%</option>
+                            <option value="30%">30%</option>
+                            <option value="0%">Không đường</option>
+                        </select>
+                    </div>
+                    <div class="col-6">
+                        <div class="option-group-title">Mức đá</div>
+                        <select class="form-select border-0 bg-light" id="quickIce" style="border-radius:12px; padding:.7rem;">
+                            <option value="100%">100% (Chuẩn)</option>
+                            <option value="70%">70%</option>
+                            <option value="50%">50%</option>
+                            <option value="30%">30%</option>
+                            <option value="0%">Không đá</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer border-0 pt-0">
+                <button type="button" class="btn btn-light px-4" data-bs-dismiss="modal" style="border-radius:30px;">Hủy</button>
+                <button type="button" class="btn btn-primary px-5" id="confirmQuickAdd" style="background:var(--cafe-brown);border:none;border-radius:30px;">
+                    Thêm vào giỏ
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    let currentQuickProduct = null;
+    let baseQuickPrice = 0;
+
+    $(document).ready(function() {
+        $('#confirmQuickAdd').on('click', function() {
+            if (!currentQuickProduct) return;
+            
+            const size = $('input[name="quickSize"]:checked').val();
+            const sugar = $('#quickSugar').val();
+            const ice = $('#quickIce').val();
+            
+            addToCart(currentQuickProduct.id, 1, size, sugar, ice);
+            $('#quickCustomizeModal').modal('hide');
+        });
+    });
+
+    function openQuickCustomize(id, name, price, img) {
+        currentQuickProduct = { id, name, price, img };
+        baseQuickPrice = parseFloat(price);
+        
+        $('#quickProductName').text(name);
+        $('#quickProductImg').attr('src', img || '/images/no-image.png');
+        $('#qsizeReg').prop('checked', true);
+        $('#quickSugar').val('100%');
+        $('#quickIce').val('100%');
+        
+        updateQuickPrice();
+        $('#quickCustomizeModal').modal('show');
+    }
+
+    function updateQuickPrice() {
+        const size = $('input[name="quickSize"]:checked').val();
+        let finalPrice = baseQuickPrice;
+        
+        if (size === 'Medium') finalPrice += 5000;
+        else if (size === 'Large') finalPrice += 10000;
+        
+        $('#quickProductPrice').text(parseInt(finalPrice).toLocaleString('vi-VN') + ' ₫');
+    }
+</script>

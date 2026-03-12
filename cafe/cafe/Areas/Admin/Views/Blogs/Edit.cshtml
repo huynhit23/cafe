@@ -12,7 +12,7 @@
             <h4 class="mb-0"><i class="fas fa-edit"></i> Sửa bài viết</h4>
         </div>
         <div class="card-body">
-            <form asp-action="Edit">
+            <form asp-action="Edit" enctype="multipart/form-data">
                 <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
                 <input type="hidden" asp-for="Id" />
                 <input type="hidden" asp-for="CreatedDate" />
@@ -30,9 +30,19 @@
                 </div>
 
                 <div class="mb-3">
-                    <label asp-for="ImageUrl" class="form-label fw-bold">URL ảnh đại diện</label>
-                    <input asp-for="ImageUrl" class="form-control" />
-                    <span asp-validation-for="ImageUrl" class="text-danger"></span>
+                    <label class="form-label fw-bold">Ảnh đại diện</label>
+                    <input type="file" name="imageFile" class="form-control" onchange="previewImage(this)" />
+                    <input type="hidden" asp-for="ImageUrl" />
+                    <div class="mt-2">
+                        @if (!string.IsNullOrEmpty(Model.ImageUrl))
+                        {
+                            <img id="imgPreview" src="@Model.ImageUrl" style="max-width: 200px; border-radius: 8px;" />
+                        }
+                        else
+                        {
+                            <img id="imgPreview" src="" style="max-width: 200px; display: none; border-radius: 8px;" />
+                        }
+                    </div>
                 </div>
 
                 <div class="form-check mb-3">
@@ -78,5 +88,15 @@
                 }
             }
         });
+
+        function previewImage(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#imgPreview').attr('src', e.target.result).show();
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
     </script>
 }

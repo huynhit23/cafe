@@ -1,0 +1,73 @@
+@model IEnumerable<cafe.Models.Order>
+@{
+    ViewData["Title"] = "Đơn mua của tôi";
+}
+
+<section class="py-5" style="background:#f5f5f5; min-height:80vh;">
+    <div class="container" style="max-width:800px;">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/Account/Profile" style="color:var(--cafe-brown);">Tài khoản</a></li>
+                <li class="breadcrumb-item active">Đơn mua</li>
+            </ol>
+        </nav>
+
+        <h3 class="mb-4 fw-bold">Đơn mua của tôi</h3>
+
+        @if (!Model.Any())
+        {
+            <div class="card border-0 shadow-sm text-center py-5" style="border-radius:15px;">
+                <i class="fas fa-shopping-bag fa-4x text-muted mb-3 opacity-25"></i>
+                <h5>Bạn chưa đặt món nào</h5>
+                <p class="text-muted">Hãy chọn cho mình một ly cà phê ngon nhé!</p>
+                <a href="/Products" class="btn btn-primary px-5" style="background:var(--cafe-brown); border:none; border-radius:30px;">Mua ngay</a>
+            </div>
+        }
+        else
+        {
+            @foreach (var order in Model)
+            {
+                <div class="card border-0 shadow-sm mb-3" style="border-radius:15px;">
+                    <div class="card-header bg-white d-flex justify-content-between align-items-center py-3">
+                        <span class="fw-bold">#@order.Id <small class="text-muted ms-2">@order.OrderDate.ToString("HH:mm - dd/MM/yyyy")</small></span>
+                        @{
+                            var statusClass = order.Status switch {
+                                "Pending" => "text-warning",
+                                "Processing" => "text-info",
+                                "Shipped" => "text-primary",
+                                "Delivered" => "text-success",
+                                "Cancelled" => "text-danger",
+                                _ => "text-secondary"
+                            };
+                            var statusText = order.Status switch {
+                                "Pending" => "CHỜ XÁC NHẬN",
+                                "Processing" => "ĐANG PHA CHẾ",
+                                "Shipped" => "ĐANG GIAO",
+                                "Delivered" => "ĐÃ GIAO",
+                                "Cancelled" => "ĐÃ HỦY",
+                                _ => order.Status.ToUpper()
+                            };
+                        }
+                        <span class="fw-bold @statusClass" style="font-size:.85rem; letter-spacing:1px;">@statusText</span>
+                    </div>
+                    <div class="card-body">
+                        <p class="mb-1 small text-muted"><i class="fas fa-map-marker-alt me-1"></i>Địa chỉ: @order.ShippingAddress</p>
+                        <div class="d-flex justify-content-between align-items-center mt-3">
+                            <div>
+                                <span class="text-muted small">Thanh toán:</span> 
+                                <strong>@(order.PaymentStatus == "Paid" ? "Đã thanh toán" : "Chưa thanh toán")</strong>
+                            </div>
+                            <div class="text-end">
+                                <div class="small text-muted">Tổng thanh toán</div>
+                                <h5 class="text-danger fw-bold mb-0">@order.TotalAmount.ToString("N0") ₫</h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer bg-light border-0 py-3 text-end">
+                        <a href="/Account/OrderDetails/@order.Id" class="btn btn-sm btn-outline-dark" style="border-radius:20px; padding:.4rem 1.5rem;">Xem chi tiết</a>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</section>

@@ -17,17 +17,58 @@
                         <label class="form-label fw-bold">Họ và tên nhận hàng</label>
                         <input type="text" class="form-control" value="@User.Identity?.Name" readonly style="background:#f9f9f9;" />
                     </div>
+                    <div class="mb-4 p-3 border rounded bg-light">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span class="fw-bold"><i class="fas fa-coins text-warning me-2"></i>Điểm tích lũy hiện có:</span>
+                            <span class="fs-5 fw-bold text-dark">@ViewBag.UserPoints</span>
+                        </div>
+                        <div class="input-group">
+                            <span class="input-group-text bg-white">Sử dụng điểm</span>
+                            <input type="number" name="usedPoints" id="usedPoints" class="form-control" min="0" max="@ViewBag.UserPoints" value="0" />
+                            <span class="input-group-text bg-white">- <span id="pointsDiscount">0</span> ₫</span>
+                        </div>
+                        <p class="small text-muted mt-2 mb-0">1 điểm = 1.000 ₫ giảm trực tiếp vào đơn hàng.</p>
+                    </div>
+
                     <div class="mb-3">
                         <label class="form-label fw-bold">Địa chỉ giao hàng <span class="text-danger">*</span></label>
                         <textarea name="shippingAddress" class="form-control" rows="3"
                                   placeholder="Số nhà, đường, phường/xã, quận/huyện, tỉnh/thành phố" required></textarea>
                     </div>
                     <div class="mb-4">
+                        <label class="form-label fw-bold">Phương thức thanh toán <span class="text-danger">*</span></label>
+                        <div class="border rounded p-3 bg-white">
+                            <div class="form-check mb-3">
+                                <input class="form-check-input" type="radio" name="paymentMethod" id="payCOD" value="COD" checked>
+                                <label class="form-check-label d-flex align-items-center" for="payCOD">
+                                    <i class="fas fa-money-bill-wave text-success me-3" style="font-size:1.5rem;width:30px;"></i>
+                                    <div>
+                                        <div class="fw-bold">Thanh toán khi nhận hàng (COD)</div>
+                                        <div class="small text-muted">Thanh toán bằng tiền mặt khi shipper giao tới.</div>
+                                    </div>
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="paymentMethod" id="payVNP" value="VNPay">
+                                <label class="form-check-label d-flex align-items-center" for="payVNP">
+                                    <div class="me-3" style="width:30px; text-align:center;">
+                                        <img src="https://vnpay.vn/wp-content/uploads/2020/07/icon-vnpay.png" alt="VNPay" style="width:24px;" />
+                                    </div>
+                                    <div>
+                                        <div class="fw-bold">Ví điện tử VNPay / Ngân hàng</div>
+                                        <div class="small text-muted">Thanh toán qua mã QR hoặc thẻ ATM/Quốc tế.</div>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
                         <label class="form-label fw-bold">Ghi chú</label>
                         <input type="text" class="form-control" placeholder="Giao giờ hành chính, gọi trước khi giao..." />
                     </div>
                     <button type="submit" class="btn-cafe w-100 justify-content-center" style="font-size:1rem;padding:.85rem;">
-                        <i class="fas fa-check-circle me-2"></i>Đặt hàng (@total.ToString("N0") ₫)
+                        <i class="fas fa-lock me-2"></i>HOÀN TẤT ĐẶT HÀNG (@total.ToString("N0") ₫)
                     </button>
                 </form>
             </div>
@@ -35,16 +76,19 @@
             <!-- Đơn hàng -->
             <div class="col-lg-5">
                 <div style="background:var(--cafe-cream);border-radius:16px;padding:1.75rem;">
-                    <h5 style="font-family:'Playfair Display',serif;color:var(--cafe-brown);" class="mb-3">Đơn hàng của bạn</h5>
+                    <h5 style="font-family:'Playfair Display',serif;color:var(--cafe-brown);" class="mb-3">Tóm tắt đơn hàng</h5>
                     @foreach (var item in Model)
                     {
-                        <div class="d-flex justify-content-between align-items-center mb-3 pb-3 border-bottom">
-                            <div class="d-flex gap-2 align-items-center">
+                        <div class="d-flex justify-content-between align-items-start mb-3 pb-3 border-bottom">
+                            <div class="d-flex gap-2 align-items-start">
                                 <img src="@(item.ImageUrl ?? "")" onerror="this.src=''" alt="@item.Name"
                                      style="width:50px;height:50px;border-radius:8px;object-fit:cover;background:var(--cafe-gray);" />
                                 <div>
-                                    <div style="font-weight:600;font-size:.9rem;">@item.Name</div>
-                                    <div style="font-size:.8rem;color:var(--text-muted);">x@item.Quantity</div>
+                                    <div style="font-weight:600;font-size:1rem;line-height:1.2;">@item.Name</div>
+                                    <div class="text-muted" style="font-size:.8rem; margin: 4px 0;">
+                                         Size: @item.Size | Đ: @item.SugarLevel | Đá: @item.IceLevel
+                                    </div>
+                                    <div style="font-size:.85rem;color:var(--cafe-brown);">x@item.Quantity x @item.Price.ToString("N0") ₫</div>
                                 </div>
                             </div>
                             <span style="font-weight:700;color:var(--cafe-brown);">@((item.Price * item.Quantity).ToString("N0")) ₫</span>
@@ -63,3 +107,26 @@
         </div>
     </div>
 </section>
+
+@section Scripts {
+    <script>
+        const pointsInput = document.getElementById('usedPoints');
+        const pointsDiscountEl = document.getElementById('pointsDiscount');
+        const baseTotal = @total;
+        
+        pointsInput.addEventListener('input', function() {
+            let points = parseInt(this.value) || 0;
+            const maxPoints = @ViewBag.UserPoints;
+            
+            if (points > maxPoints) {
+                points = maxPoints;
+                this.value = maxPoints;
+            }
+            
+            const discount = points * 1000;
+            pointsDiscountEl.textContent = discount.toLocaleString('vi-VN');
+            
+            // Note: In a real app, you'd update the big total display here too
+        });
+    </script>
+}

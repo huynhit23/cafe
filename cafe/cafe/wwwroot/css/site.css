@@ -6,9 +6,9 @@
 :root {
     --cafe-brown:    #6B3F2A;
     --cafe-light:    #C8956C;
-    --cafe-cream:    #FDF6EE;
+    --cafe-cream:    #FFFBF7;
     --cafe-dark:     #1C1008;
-    --cafe-gray:     #F5F0EB;
+    --cafe-gray:     #FAF8F6;
     --text-main:     #2D1B0E;
     --text-muted:    #8C7B6B;
     --white:         #FFFFFF;
@@ -65,8 +65,10 @@ body {
     display: flex;
     align-items: center;
     gap: .4rem;
+    border: none;
 }
 .cart-btn:hover { background: var(--cafe-dark) !important; color: #fff !important; }
+.cart-btn i, .cart-btn span { color: #fff !important; }
 .cart-badge {
     position: absolute;
     top: -6px; right: -6px;
@@ -219,3 +221,24 @@ body {
 .badge-cafe { background: var(--cafe-brown); color: #fff; border-radius: 50px; padding: .25rem .75rem; font-size: .78rem; font-weight: 600; }
 .text-cafe { color: var(--cafe-brown) !important; }
 .bg-cafe { background: var(--cafe-brown) !important; }
+
+/* ---- PREMIUM MODAL ---- */
+.modal-content { border-radius: 20px; border: none; box-shadow: 0 15px 50px rgba(0,0,0,0.15); }
+.modal-header { border-bottom: 1px solid var(--cafe-gray); padding: 1.25rem; }
+.option-group-title { font-size: .85rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 1rem; }
+.selection-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 1.5rem; }
+.selection-item { position: relative; }
+.selection-item input { position: absolute; opacity: 0; cursor: pointer; height: 0; width: 0; }
+.selection-label { 
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: .75rem .5rem; background: #fff; border: 2px solid var(--cafe-gray); border-radius: 12px;
+    cursor: pointer; transition: all 0.2s; font-size: .85rem; font-weight: 500; height: 100%;
+}
+.selection-item input:checked + .selection-label { border-color: var(--cafe-brown); background: var(--cafe-cream); color: var(--cafe-brown); }
+.quick-view-btn { 
+    background: rgba(255,255,255,0.9); border: none; width: 36px; height: 36px; 
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    position: absolute; top: 10px; right: 10px; opacity: 0; transition: all 0.3s;
+    color: var(--cafe-brown); box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+.product-card:hover .quick-view-btn { opacity: 1; }

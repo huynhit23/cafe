@@ -53,10 +53,49 @@
                     }
                 </div>
 
+                <!-- Customization Options -->
+                <div class="mb-4 product-options">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Kích cỡ</label>
+                        <div class="d-flex gap-2">
+                            <input type="radio" class="btn-check" name="size" id="sizeReg" value="Regular" checked>
+                            <label class="btn btn-outline-cafe" for="sizeReg">Regular (0đ)</label>
+                            
+                            <input type="radio" class="btn-check" name="size" id="sizeMed" value="Medium">
+                            <label class="btn btn-outline-cafe" for="sizeMed">Medium (+5k)</label>
+                            
+                            <input type="radio" class="btn-check" name="size" id="sizeLarge" value="Large">
+                            <label class="btn btn-outline-cafe" for="sizeLarge">Large (+10k)</label>
+                        </div>
+                    </div>
+                    
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Mức đường</label>
+                            <select class="form-select custom-select" id="sugarLevel">
+                                <option value="100%">100% (Chuẩn)</option>
+                                <option value="70%">70% (Ít đường)</option>
+                                <option value="50%">50% (Vừa)</option>
+                                <option value="30%">30% (Rất ít)</option>
+                                <option value="0%">0% (Không đường)</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Mức đá</label>
+                            <select class="form-select custom-select" id="iceLevel">
+                                <option value="100%">100% (Chuẩn)</option>
+                                <option value="70%">70% (Ít đá)</option>
+                                <option value="50%">50% (Vừa)</option>
+                                <option value="0%">0% (Không đá)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
                 @if (Model.StockQuantity > 0)
                 {
                     <div class="d-flex gap-3 flex-wrap">
-                        <button class="btn-cafe" onclick="addToCart(@Model.Id)" style="font-size:1rem;padding:.75rem 1.75rem;">
+                        <button class="btn-cafe" onclick="handleAddToCart(@Model.Id)" style="font-size:1rem;padding:.75rem 1.75rem;">
                             <i class="fas fa-shopping-bag me-2"></i>Thêm vào giỏ
                         </button>
                         <a asp-controller="Products" asp-action="Index" class="btn-cafe-outline">

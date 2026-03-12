@@ -1,0 +1,56 @@
+@model IEnumerable<cafe.Models.Product>
+
+@if (!Model.Any())
+{
+    <div class="text-center py-5 text-muted animate__animated animate__fadeIn">
+        <i class="fas fa-search fa-3x mb-3 d-block" style="color:var(--cafe-light);"></i>
+        <p>Không tìm thấy sản phẩm nào phù hợp với lựa chọn của bạn.</p>
+    </div>
+}
+else
+{
+    <div class="row g-4 animate__animated animate__fadeIn">
+        @foreach (var p in Model)
+        {
+            <div class="col-6 col-md-4 col-lg-3">
+                <div class="product-card h-100">
+                    <a asp-controller="Products" asp-action="Details" asp-route-id="@p.Id" style="text-decoration:none;color:inherit;">
+                        <div class="card-img-wrap">
+                            @if (!string.IsNullOrEmpty(p.ImageUrl))
+                            {
+                                <img src="@p.ImageUrl" alt="@p.Name" loading="lazy" />
+                            }
+                            else
+                            {
+                                <i class="fas fa-coffee" style="font-size:3rem;color:var(--cafe-light);"></i>
+                            }
+                            <button class="quick-view-btn" onclick="openQuickCustomize(@p.Id, '@p.Name', '@p.Price', '@p.ImageUrl')" title="Xem nhanh">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                        <div class="card-body">
+                            <div class="product-category">@p.Category?.Name</div>
+                            <div class="product-name">@p.Name</div>
+                        </div>
+                    </a>
+                    <div class="card-body pt-0">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="product-price">@p.Price.ToString("N0") ₫</span>
+                            @if (p.StockQuantity > 0)
+                            {
+                                <button class="btn-cafe" style="padding:.4rem .85rem;font-size:.8rem;"
+                                        onclick="openQuickCustomize(@p.Id, '@p.Name', '@p.Price', '@p.ImageUrl')">
+                                    <i class="fas fa-plus me-1"></i>Chọn
+                                </button>
+                            }
+                            else
+                            {
+                                <span class="badge bg-secondary">Hết hàng</span>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}

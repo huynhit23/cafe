@@ -1,0 +1,108 @@
+@model cafe.Models.Order
+@{
+    ViewData["Title"] = $"Chi tiết đơn #{Model.Id}";
+}
+
+<section class="py-5" style="background:#f5f5f5; min-height:80vh;">
+    <div class="container" style="max-width:800px;">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/Account/Index" style="color:var(--cafe-brown);">Đơn mua</a></li>
+                <li class="breadcrumb-item active">Chi tiết đơn hàng</li>
+            </ol>
+        </nav>
+
+        <div class="card border-0 shadow-sm" style="border-radius:15px; overflow:hidden;">
+            <!-- Status Header Tracking (Shopee Style) -->
+            <div class="p-4 border-bottom bg-white">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <span class="fw-bold fs-5">MÃ ĐƠN HÀNG: #@Model.Id</span>
+                    <span class="text-danger fw-bold">@Model.Status.ToUpper()</span>
+                </div>
+                
+                <!-- Tracking Bar -->
+                <div class="d-flex justify-content-between text-center position-relative mb-2">
+                    <div class="flex-grow-1">
+                        <div class="rounded-circle mx-auto mb-2 d-flex align-items-center justify-content-center @(Model.Status == "Pending" || Model.Status == "Processing" || Model.Status == "Shipped" || Model.Status == "Delivered" ? "bg-success text-white" : "bg-light")" style="width:40px;height:40px;">
+                            <i class="fas fa-file-invoice"></i>
+                        </div>
+                        <div class="small">Đã đặt</div>
+                    </div>
+                    <div class="flex-grow-1">
+                        <div class="rounded-circle mx-auto mb-2 d-flex align-items-center justify-content-center @(Model.Status == "Processing" || Model.Status == "Shipped" || Model.Status == "Delivered" ? "bg-success text-white" : "bg-light")" style="width:40px;height:40px;">
+                            <i class="fas fa-coffee"></i>
+                        </div>
+                        <div class="small">Chuẩn bị</div>
+                    </div>
+                    <div class="flex-grow-1">
+                        <div class="rounded-circle mx-auto mb-2 d-flex align-items-center justify-content-center @(Model.Status == "Shipped" || Model.Status == "Delivered" ? "bg-success text-white" : "bg-light")" style="width:40px;height:40px;">
+                            <i class="fas fa-motorcycle"></i>
+                        </div>
+                        <div class="small">Đang giao</div>
+                    </div>
+                    <div class="flex-grow-1">
+                        <div class="rounded-circle mx-auto mb-2 d-flex align-items-center justify-content-center @(Model.Status == "Delivered" ? "bg-success text-white" : "bg-light")" style="width:40px;height:40px;">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="small">Đã nhận</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Address Section -->
+            <div class="p-4 border-bottom" style="background:rgba(255,255,255,0.7);">
+                <h6 class="fw-bold mb-3"><i class="fas fa-map-marker-alt text-danger me-2"></i>Địa Chỉ Nhận Hàng</h6>
+                <div><strong>@User.Identity?.Name</strong></div>
+                <div class="text-muted">@Model.ShippingAddress</div>
+                <div class="text-muted mt-2 small">Ngày đặt: @Model.OrderDate.ToString("HH:mm dd/MM/yyyy")</div>
+            </div>
+
+            <!-- Products -->
+            <div class="p-4 bg-white">
+                @foreach (var item in Model.OrderDetails)
+                {
+                    <div class="d-flex gap-3 align-items-center mb-3 pb-3 border-bottom">
+                        <img src="@item.Product?.ImageUrl" style="width:80px;height:80px;object-fit:cover;border-radius:8px;background:#f8f9fa;" onerror="this.src='/images/no-image.png'" />
+                        <div class="flex-grow-1">
+                            <div class="fw-bold">@item.Product?.Name</div>
+                            <div class="small text-muted">
+                                Phân loại: @item.Size • @item.SugarLevel • @item.IceLevel
+                            </div>
+                            <div class="small mt-1">x@item.Quantity</div>
+                        </div>
+                        <div class="text-end">
+                            <div class="text-danger fw-bold">@item.Price.ToString("N0") ₫</div>
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <!-- Total -->
+            <div class="p-4 bg-light border-top">
+                <div class="row justify-content-end">
+                    <div class="col-md-5">
+                        <div class="d-flex justify-content-between mb-2">
+                            <span class="text-muted small">Tổng tiền hàng</span>
+                            <span>@((Model.TotalAmount).ToString("N0")) ₫</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span class="text-muted small">Phí vận chuyển</span>
+                            <span class="text-success">Miễn phí</span>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center mt-3 pt-3 border-top">
+                            <span class="fw-bold">Thành tiền</span>
+                            <h4 class="text-danger fw-bold mb-0">@Model.TotalAmount.ToString("N0") ₫</h4>
+                        </div>
+                        <div class="text-muted small text-end mt-2">
+                            <i class="fas fa-shield-alt text-success me-1"></i> Phương thức: @(Model.PaymentStatus == "Paid" ? "VNPay (Đã thanh toán)" : "Tiền mặt")
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="text-center mt-4">
+            <a href="/Account/Index" class="btn btn-outline-secondary px-5" style="border-radius:30px;">Quay lại danh sách đơn mua</a>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,17 @@
+@{
+    ViewData["Title"] = "Thanh toán thất bại";
+}
+
+<div class="container py-5 text-center">
+    <div style="font-size:5rem;color:var(--bs-danger);" class="mb-4">
+        <i class="fas fa-times-circle"></i>
+    </div>
+    <h2 style="font-family:'Playfair Display',serif;color:var(--cafe-brown);">Thanh toán thất bại</h2>
+    <p class="text-muted mb-4">@TempData["Message"]</p>
+    <p>Có vẻ như đã xảy ra lỗi trong quá trình thanh toán qua VNPay. Đừng lo, đơn hàng của bạn đã được ghi nhận ở trạng thái <b>Chưa thanh toán</b>.</p>
+    
+    <div class="d-flex justify-content-center gap-3 mt-5">
+        <a asp-controller="OrderHistory" asp-action="Index" class="btn-cafe-outline"> Xem lịch sử đơn hàng </a>
+        <a asp-controller="Home" asp-action="Index" class="btn-cafe"> Quay lại trang chủ </a>
+    </div>
+</div>
